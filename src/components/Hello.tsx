@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material';
+
 export default function Hello() {
-  return <h1>Hello world</h1>;
+  return <Typography variant="h1">Hello world</Typography>;
 }
