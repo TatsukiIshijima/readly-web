@@ -1,5 +1,6 @@
 import {
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -9,6 +10,8 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import React from 'react';
 
 export default function PasswordTextField() {
+  const [passwordError, setPasswordError] = React.useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => {
@@ -35,6 +38,9 @@ export default function PasswordTextField() {
       <OutlinedInput
         id={'outlined-adornment-password'}
         type={showPassword ? 'text' : 'password'}
+        name={'outlined-adornment-password'}
+        error={passwordError}
+        autoFocus={true}
         endAdornment={
           <InputAdornment position={'end'}>
             <IconButton
@@ -52,6 +58,9 @@ export default function PasswordTextField() {
         }
         label={'Password'}
       ></OutlinedInput>
+      <FormHelperText sx={{ color: 'error.main' }}>
+        {passwordErrorMessage}
+      </FormHelperText>
     </FormControl>
   );
 }
