@@ -49,8 +49,10 @@ export default function PasswordTextField({
   };
 
   return (
-    <FormControl>
-      <InputLabel htmlFor={id}>{label}</InputLabel>
+    <FormControl error={error} variant={'outlined'}>
+      <InputLabel htmlFor={id} sx={error ? { color: 'error.main' } : undefined}>
+        {label}
+      </InputLabel>
       <OutlinedInput
         id={id}
         type={showPassword ? 'text' : 'password'}
@@ -61,7 +63,6 @@ export default function PasswordTextField({
         onChange={(e) => {
           onChange(e.target.value);
         }}
-        // onBlur={handleBlur}
         endAdornment={
           <InputAdornment position={'end'}>
             <IconButton
