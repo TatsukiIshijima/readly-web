@@ -2,6 +2,8 @@ import { TextField } from '@mui/material';
 import { HTMLInputTypeAttribute } from 'react';
 
 interface BasicTextFieldProps {
+  value: string;
+  onChange: (value: string) => void;
   id: string;
   name: string;
   label: string;
@@ -11,8 +13,10 @@ interface BasicTextFieldProps {
 }
 
 export default function BasicTextField({
-  id = '',
-  name = '',
+  value,
+  onChange,
+  id = 'basic-text-filed',
+  name = 'basic-text-filed',
   label = '',
   type = 'text',
   error = false,
@@ -28,6 +32,10 @@ export default function BasicTextField({
       variant={'outlined'}
       error={error}
       helperText={shouldShowError ? errorMessage : null}
+      value={value}
+      onChange={(e) => {
+        onChange(e.target.value);
+      }}
     ></TextField>
   );
 }
