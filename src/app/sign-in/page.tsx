@@ -28,7 +28,8 @@ export default function SignIn() {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
+    const isValid = validateInputs(email, password);
+    if (!isValid) {
       e.preventDefault();
       return;
     }
@@ -39,12 +40,8 @@ export default function SignIn() {
     });
   };
 
-  const handleClick = () => {
-    console.log('click login');
-    validateInputs();
-  };
-
-  const validateInputs = () => {
+  // TODO:ロジック側に移動
+  const validateInputs = (email: string, password: string) => {
     let isValid = true;
 
     if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
@@ -98,7 +95,7 @@ export default function SignIn() {
       />
       <BasicButton
         onClick={() => {
-          handleClick();
+          // do nothing
         }}
         id={loginButtonName}
         name={loginButtonName}
