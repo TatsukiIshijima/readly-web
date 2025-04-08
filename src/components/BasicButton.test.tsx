@@ -6,7 +6,9 @@ describe('BasicButton', () => {
     const defaultProps = {
       onClick: jest.fn(),
       id: 'basic-button',
+      name: 'basic-button',
       label: 'Button',
+      type: 'button' as const,
       disabled: false,
       fullWidth: true,
     };
