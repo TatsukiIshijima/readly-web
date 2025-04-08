@@ -4,8 +4,8 @@ interface BasicButtonProps {
   onClick: () => void;
   id: string;
   label: string;
-  disabled: boolean;
-  fullWidth: boolean;
+  disabled?: boolean;
+  fullWidth?: boolean;
 }
 
 export default function BasicButton({
