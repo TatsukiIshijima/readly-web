@@ -23,8 +23,8 @@ interface PasswordTextFieldProps {
 export default function PasswordTextField({
   password,
   onChange,
-  id = 'outlined-adornment-password',
-  name = 'outlined-adornment-password',
+  id = 'password-text-filed',
+  name = 'password-text-filed',
   label = 'パスワード',
   autoFocus = true,
   error = false,
