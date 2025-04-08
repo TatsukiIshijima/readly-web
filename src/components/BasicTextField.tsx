@@ -8,6 +8,7 @@ interface BasicTextFieldProps {
   name: string;
   label: string;
   type: HTMLInputTypeAttribute;
+  fullWidth: boolean;
   error: boolean;
   errorMessage: string;
 }
@@ -19,6 +20,7 @@ export default function BasicTextField({
   name = 'basic-text-filed',
   label = '',
   type = 'text',
+  fullWidth = true,
   error = false,
   errorMessage = '',
 }: BasicTextFieldProps) {
@@ -30,6 +32,7 @@ export default function BasicTextField({
       label={label}
       type={type}
       variant={'outlined'}
+      fullWidth={fullWidth}
       error={error}
       helperText={shouldShowError ? errorMessage : null}
       value={value}

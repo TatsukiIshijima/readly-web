@@ -10,6 +10,7 @@ describe('BasicTextField', () => {
       name: 'basic-text-filed',
       label: 'TestLabel',
       type: 'text',
+      fullWidth: true,
       error: false,
       errorMessage: '',
     };

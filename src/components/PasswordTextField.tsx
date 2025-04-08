@@ -15,7 +15,9 @@ interface PasswordTextFieldProps {
   id: string;
   name: string;
   label: string;
+  autoComplete: string;
   autoFocus: boolean;
+  fullWidth: boolean;
   error: boolean;
   errorMessage: string;
 }
@@ -26,7 +28,9 @@ export default function PasswordTextField({
   id = 'password-text-filed',
   name = 'password-text-filed',
   label = 'パスワード',
+  autoComplete = 'current-password',
   autoFocus = true,
+  fullWidth = true,
   error = false,
   errorMessage = '',
 }: PasswordTextFieldProps) {
@@ -49,7 +53,7 @@ export default function PasswordTextField({
   };
 
   return (
-    <FormControl error={error} variant={'outlined'}>
+    <FormControl error={error} variant={'outlined'} fullWidth={fullWidth}>
       <InputLabel htmlFor={id} sx={error ? { color: 'error.main' } : undefined}>
         {label}
       </InputLabel>
@@ -58,6 +62,7 @@ export default function PasswordTextField({
         type={showPassword ? 'text' : 'password'}
         name={name}
         error={error}
+        autoComplete={autoComplete}
         autoFocus={autoFocus}
         value={password}
         onChange={(e) => {
