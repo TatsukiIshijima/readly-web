@@ -9,7 +9,9 @@ describe('PasswordTextField', () => {
       id: 'outlined-adornment-password',
       name: 'outlined-adornment-password',
       label: 'パスワード',
+      autoComplete: 'current-password',
       autoFocus: true,
+      fullWidth: true,
       error: false,
       errorMessage: '',
     };
