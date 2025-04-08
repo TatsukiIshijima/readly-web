@@ -9,9 +9,27 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import React from 'react';
 
-export default function PasswordTextField() {
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
+interface PasswordTextFieldProps {
+  password: string;
+  onChange: (value: string) => void;
+  id: string;
+  name: string;
+  label: string;
+  autoFocus: boolean;
+  error: boolean;
+  errorMessage: string;
+}
+
+export default function PasswordTextField({
+  password,
+  onChange,
+  id = 'outlined-adornment-password',
+  name = 'outlined-adornment-password',
+  label = 'パスワード',
+  autoFocus = true,
+  error = false,
+  errorMessage = '',
+}: PasswordTextFieldProps) {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => {
@@ -32,15 +50,18 @@ export default function PasswordTextField() {
 
   return (
     <FormControl>
-      <InputLabel htmlFor={'outlined-adornment-password'}>
-        パスワード
-      </InputLabel>
+      <InputLabel htmlFor={id}>{label}</InputLabel>
       <OutlinedInput
-        id={'outlined-adornment-password'}
+        id={id}
         type={showPassword ? 'text' : 'password'}
-        name={'outlined-adornment-password'}
-        error={passwordError}
-        autoFocus={true}
+        name={name}
+        error={error}
+        autoFocus={autoFocus}
+        value={password}
+        onChange={(e) => {
+          onChange(e.target.value);
+        }}
+        // onBlur={handleBlur}
         endAdornment={
           <InputAdornment position={'end'}>
             <IconButton
@@ -56,11 +77,13 @@ export default function PasswordTextField() {
             </IconButton>
           </InputAdornment>
         }
-        label={'Password'}
+        label={label}
       ></OutlinedInput>
-      <FormHelperText sx={{ color: 'error.main' }}>
-        {passwordErrorMessage}
-      </FormHelperText>
+      {error && errorMessage && (
+        <FormHelperText sx={{ color: 'error.main' }}>
+          {errorMessage}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 }
