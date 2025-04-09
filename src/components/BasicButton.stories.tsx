@@ -11,8 +11,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  // @ts-ignore
-  args: {
-    id: 'id',
-  },
+  // @ts-expect-error storybookによる自動生成のためESLintエラーを無視
+  args: {},
 };
