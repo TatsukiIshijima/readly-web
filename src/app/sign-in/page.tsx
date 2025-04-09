@@ -1,7 +1,7 @@
 'use client';
 
 import BasicTextField from '@/components/BasicTextField';
-import { Box, Card, Stack, Typography } from '@mui/material';
+import { Box, Card, Stack, Typography, Link } from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
 import React from 'react';
@@ -122,6 +122,12 @@ export default function SignIn() {
             label={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_LABEL}
             type={'submit'}
           />
+          <Typography sx={{ textAlign: 'center' }}>
+            Don&apos;t have an account?{' '}
+            <Link href={'/sign-up'} variant={'body2'}>
+              Sign Up
+            </Link>
+          </Typography>
         </Stack>
       </Card>
     </Box>
