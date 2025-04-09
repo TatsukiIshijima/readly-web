@@ -1,20 +1,25 @@
-'use client';
-
-import BasicTextField from '@/components/BasicTextField';
 import { Box, Card, Stack, Typography } from '@mui/material';
+import React from 'react';
+import BasicTextField from '@/components/BasicTextField';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
-import React from 'react';
-import { SIGN_IN_ATTRIBUTES } from '@/attributes/signInAttributes';
 import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
+import { SIGN_UP_ATTRIBUTES } from '@/attributes/signUpAttributes';
 
-export default function SignIn() {
+export default function SignUp() {
+  const [userName, setUserName] = React.useState('');
+  const [userNameError, setUserNameError] = React.useState(false);
+  const [userNameErrorMessage, setUserNameErrorMessage] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
+
+  const handleChangeUserName = (value: string) => {
+    setUserName(value);
+  };
 
   const handleChangeEmail = (value: string) => {
     setEmail(value);
@@ -25,21 +30,38 @@ export default function SignIn() {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const isValid = validateInputs(email, password);
+    const isValid = validateInputs(userName, email, password);
     if (!isValid) {
       e.preventDefault();
       return;
     }
+
     const formData = new FormData(e.currentTarget);
     console.log({
+      userName: formData.get(COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_NAME),
       email: formData.get(COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME),
       password: formData.get(COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME),
     });
   };
 
   // TODO:ロジック側に移動
-  const validateInputs = (email: string, password: string) => {
+  const validateInputs = (
+    userName: string,
+    email: string,
+    password: string
+  ) => {
     let isValid = true;
+
+    if (userName === '') {
+      setUserNameError(true);
+      setUserNameErrorMessage(
+        COMMON_ATTRIBUTES.USERNAME_VALIDATE_ERROR_MESSAGE
+      );
+      isValid = false;
+    } else {
+      setUserNameError(false);
+      setUserNameErrorMessage('');
+    }
 
     if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
       setEmailError(true);
@@ -88,6 +110,19 @@ export default function SignIn() {
           spacing={4}
         >
           <BasicTextField
+            value={userName}
+            onChange={(v) => {
+              handleChangeUserName(v);
+            }}
+            id={COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_NAME}
+            label={COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_LABEL}
+            type={'text'}
+            error={userNameError}
+            errorMessage={userNameErrorMessage}
+            autoComplete={'text'}
+            autoFocus={true}
+          />
+          <BasicTextField
             value={email}
             onChange={(v) => {
               handleChangeEmail(v);
@@ -95,11 +130,10 @@ export default function SignIn() {
             id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
             label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
             type={'email'}
-            name={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
             error={emailError}
             errorMessage={emailErrorMessage}
             autoComplete={'email'}
-            autoFocus={true}
+            autoFocus={false}
           />
           <PasswordTextField
             password={password}
@@ -107,19 +141,19 @@ export default function SignIn() {
               handleChangePassword(v);
             }}
             id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-            name={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
             label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
             error={passwordError}
             errorMessage={passwordErrorMessage}
+            autoComplete={'password'}
             autoFocus={false}
           />
           <BasicButton
             onClick={() => {
               // do nothing
             }}
-            id={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-            name={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-            label={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_LABEL}
+            id={SIGN_UP_ATTRIBUTES.SIGN_UP_BUTTON_NAME}
+            name={SIGN_UP_ATTRIBUTES.SIGN_UP_BUTTON_NAME}
+            label={SIGN_UP_ATTRIBUTES.SIGN_UP_BUTTON_LABEL}
             type={'submit'}
           />
         </Stack>
