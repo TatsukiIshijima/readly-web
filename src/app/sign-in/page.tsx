@@ -3,15 +3,9 @@ import { Stack } from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
 import React from 'react';
+import { SIGN_IN_ATTRIBUTES } from '@/attributes/signInAttributes';
 
 export default function SignIn() {
-  const emailTextFieldName = 'email-text-field';
-  const emailTextFieldLabel = 'メールアドレス';
-  const passwordTextFieldName = 'password-text-field';
-  const passwordTextFieldLabel = 'パスワード';
-  const loginButtonName = 'login-button';
-  const loginButtonLabel = 'ログイン';
-
   const [email, setEmail] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
@@ -35,8 +29,8 @@ export default function SignIn() {
     }
     const formData = new FormData(e.currentTarget);
     console.log({
-      email: formData.get(emailTextFieldName),
-      password: formData.get(passwordTextFieldName),
+      email: formData.get(SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME),
+      password: formData.get(SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME),
     });
   };
 
@@ -46,7 +40,7 @@ export default function SignIn() {
 
     if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
       setEmailError(true);
-      setEmailErrorMessage('メールアドレスを入力してください');
+      setEmailErrorMessage(SIGN_IN_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE);
       isValid = false;
     } else {
       setEmailError(false);
@@ -55,7 +49,9 @@ export default function SignIn() {
 
     if (password === '' || password.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage('パスワードは6文字以上で入力してください');
+      setPasswordErrorMessage(
+        SIGN_IN_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE
+      );
       isValid = false;
     } else {
       setPasswordError(false);
@@ -72,10 +68,10 @@ export default function SignIn() {
         onChange={(v) => {
           handleChangeEmail(v);
         }}
-        id={emailTextFieldName}
-        label={emailTextFieldLabel}
+        id={SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
+        label={SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
         type={'email'}
-        name={emailTextFieldName}
+        name={SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
         error={emailError}
         errorMessage={emailErrorMessage}
         autoComplete={'email'}
@@ -86,9 +82,9 @@ export default function SignIn() {
         onChange={(v) => {
           handleChangePassword(v);
         }}
-        id={passwordTextFieldName}
-        name={passwordTextFieldName}
-        label={passwordTextFieldLabel}
+        id={SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
+        name={SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
+        label={SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
         error={passwordError}
         errorMessage={passwordErrorMessage}
         autoFocus={false}
@@ -97,9 +93,9 @@ export default function SignIn() {
         onClick={() => {
           // do nothing
         }}
-        id={loginButtonName}
-        name={loginButtonName}
-        label={loginButtonLabel}
+        id={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
+        name={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
+        label={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_LABEL}
         type={'submit'}
       />
     </Stack>
