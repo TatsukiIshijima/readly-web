@@ -1,3 +1,5 @@
+'use client';
+
 import BasicTextField from '@/components/BasicTextField';
 import { Box, Card, Stack, Typography } from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
