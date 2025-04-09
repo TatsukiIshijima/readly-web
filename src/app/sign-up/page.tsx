@@ -11,13 +11,10 @@ import { SIGN_UP_ATTRIBUTES } from '@/attributes/signUpAttributes';
 export default function SignUp() {
   const [userName, setUserName] = React.useState('');
   const [userNameError, setUserNameError] = React.useState(false);
-  const [userNameErrorMessage, setUserNameErrorMessage] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
 
   const handleChangeUserName = (value: string) => {
     setUserName(value);
@@ -56,33 +53,23 @@ export default function SignUp() {
 
     if (userName === '') {
       setUserNameError(true);
-      setUserNameErrorMessage(
-        COMMON_ATTRIBUTES.USERNAME_VALIDATE_ERROR_MESSAGE
-      );
       isValid = false;
     } else {
       setUserNameError(false);
-      setUserNameErrorMessage('');
     }
 
     if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
       setEmailError(true);
-      setEmailErrorMessage(COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE);
       isValid = false;
     } else {
       setEmailError(false);
-      setEmailErrorMessage('');
     }
 
     if (password === '' || password.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage(
-        COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE
-      );
       isValid = false;
     } else {
       setPasswordError(false);
-      setPasswordErrorMessage('');
     }
 
     return isValid;
@@ -120,7 +107,11 @@ export default function SignUp() {
             label={COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_LABEL}
             type={'text'}
             error={userNameError}
-            errorMessage={userNameErrorMessage}
+            errorMessage={
+              userNameError
+                ? COMMON_ATTRIBUTES.USERNAME_VALIDATE_ERROR_MESSAGE
+                : ''
+            }
             autoComplete={'text'}
             autoFocus={true}
           />
@@ -133,7 +124,9 @@ export default function SignUp() {
             label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
             type={'email'}
             error={emailError}
-            errorMessage={emailErrorMessage}
+            errorMessage={
+              emailError ? COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE : ''
+            }
             autoComplete={'email'}
             autoFocus={false}
           />
@@ -145,7 +138,11 @@ export default function SignUp() {
             id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
             label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
             error={passwordError}
-            errorMessage={passwordErrorMessage}
+            errorMessage={
+              passwordError
+                ? COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE
+                : ''
+            }
             autoComplete={'password'}
             autoFocus={false}
           />
