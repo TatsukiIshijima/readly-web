@@ -23,6 +23,7 @@ export default function BasicButton({
 }: BasicButtonProps) {
   return (
     <Button
+      sx={{ textTransform: 'none' }}
       onClick={() => {
         onClick();
       }}

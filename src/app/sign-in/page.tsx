@@ -1,5 +1,5 @@
 import BasicTextField from '@/components/BasicTextField';
-import { Stack } from '@mui/material';
+import { Box, Card, Stack, Typography } from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
 import React from 'react';
@@ -62,42 +62,60 @@ export default function SignIn() {
   };
 
   return (
-    <Stack component={'form'} onSubmit={handleSubmit} spacing={4}>
-      <BasicTextField
-        value={email}
-        onChange={(v) => {
-          handleChangeEmail(v);
-        }}
-        id={SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-        label={SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
-        type={'email'}
-        name={SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-        error={emailError}
-        errorMessage={emailErrorMessage}
-        autoComplete={'email'}
-        autoFocus={true}
-      />
-      <PasswordTextField
-        password={password}
-        onChange={(v) => {
-          handleChangePassword(v);
-        }}
-        id={SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-        name={SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-        label={SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
-        error={passwordError}
-        errorMessage={passwordErrorMessage}
-        autoFocus={false}
-      />
-      <BasicButton
-        onClick={() => {
-          // do nothing
-        }}
-        id={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-        name={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-        label={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_LABEL}
-        type={'submit'}
-      />
-    </Stack>
+    <Box
+      display={'flex'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      minHeight={'100vh'}
+      px={2}
+    >
+      <Card
+        variant={'outlined'}
+        sx={{ width: '100%', maxWidth: 400, p: { xs: 3, sm: 4 } }}
+      >
+        <Box display={'flex'} justifyContent={'center'} mb={4}>
+          <Typography component={'h1'} variant={'h4'}>
+            Readly
+          </Typography>
+        </Box>
+        <Stack component={'form'} onSubmit={handleSubmit} spacing={4}>
+          <BasicTextField
+            value={email}
+            onChange={(v) => {
+              handleChangeEmail(v);
+            }}
+            id={SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
+            label={SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
+            type={'email'}
+            name={SIGN_IN_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
+            error={emailError}
+            errorMessage={emailErrorMessage}
+            autoComplete={'email'}
+            autoFocus={true}
+          />
+          <PasswordTextField
+            password={password}
+            onChange={(v) => {
+              handleChangePassword(v);
+            }}
+            id={SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
+            name={SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
+            label={SIGN_IN_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
+            error={passwordError}
+            errorMessage={passwordErrorMessage}
+            autoFocus={false}
+          />
+          <BasicButton
+            onClick={() => {
+              // do nothing
+            }}
+            id={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
+            name={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
+            label={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_LABEL}
+            type={'submit'}
+          />
+        </Stack>
+      </Card>
+    </Box>
   );
 }
