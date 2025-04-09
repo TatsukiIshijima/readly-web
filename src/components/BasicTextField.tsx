@@ -5,24 +5,28 @@ interface BasicTextFieldProps {
   value: string;
   onChange: (value: string) => void;
   id: string;
-  name: string;
   label: string;
   type: HTMLInputTypeAttribute;
-  fullWidth: boolean;
   error: boolean;
   errorMessage: string;
+  name?: string;
+  autoComplete?: string;
+  autoFocus?: boolean;
+  fullWidth?: boolean;
 }
 
 export default function BasicTextField({
   value,
   onChange,
   id = 'basic-text-filed',
-  name = 'basic-text-filed',
   label = '',
   type = 'text',
-  fullWidth = true,
   error = false,
   errorMessage = '',
+  name = 'basic-text-filed',
+  autoComplete = 'off',
+  autoFocus = true,
+  fullWidth = true,
 }: BasicTextFieldProps) {
   const shouldShowError = error && errorMessage !== '';
   return (
@@ -35,6 +39,8 @@ export default function BasicTextField({
       fullWidth={fullWidth}
       error={error}
       helperText={shouldShowError ? errorMessage : null}
+      autoComplete={autoComplete}
+      autoFocus={autoFocus}
       value={value}
       onChange={(e) => {
         onChange(e.target.value);

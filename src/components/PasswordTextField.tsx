@@ -13,13 +13,13 @@ interface PasswordTextFieldProps {
   password: string;
   onChange: (value: string) => void;
   id: string;
-  name: string;
   label: string;
-  autoComplete: string;
-  autoFocus: boolean;
-  fullWidth: boolean;
   error: boolean;
   errorMessage: string;
+  name?: string;
+  autoComplete?: string;
+  autoFocus?: boolean;
+  fullWidth?: boolean;
 }
 
 export default function PasswordTextField({
