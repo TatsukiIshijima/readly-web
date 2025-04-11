@@ -5,31 +5,40 @@ const dummyBooks: Book[] = [
   {
     id: 1,
     title: 'Book1',
+    status: 'unread',
     author: 'Author1',
   },
   {
     id: 2,
     title: 'Book2',
+    status: 'unread',
     author: 'Author2',
   },
   {
     id: 3,
     title: 'Book3',
     imgUrl: 'https://placehold.jp/150x150.png',
+    status: 'unread',
     author: 'Author3',
   },
   {
     id: 4,
     title: 'Book4',
+    status: 'reading',
     imgUrl: 'https://placehold.jp/240x160.png',
   },
   {
     id: 5,
     title: 'Book5',
+    status: 'done',
   },
 ];
 
-function BookGrid() {
+interface BookGridProps {
+  books: Book[];
+}
+
+function BookGrid({ books }: BookGridProps) {
   return (
     <Box
       sx={{
@@ -42,7 +51,7 @@ function BookGrid() {
         p: 2,
       }}
     >
-      {dummyBooks.map((book) => (
+      {books.map((book) => (
         <BookItem
           key={book.id}
           id={book.id}
@@ -59,7 +68,7 @@ function BookGrid() {
 export default function BookList() {
   return (
     <div>
-      <BookGrid />
+      <BookGrid books={dummyBooks} />
     </div>
   );
 }
