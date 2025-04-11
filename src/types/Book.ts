@@ -1,6 +1,6 @@
-type ReadingStatus = 'unread' | 'reading' | 'done';
+import { ReadingStatus } from '@/types/ReadingStatus';
 
-type Book = {
+export type Book = {
   id: number;
   title: string;
   status: ReadingStatus;
