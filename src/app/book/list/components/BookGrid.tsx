@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import BookItem from '@/app/book-list/components/BookItem';
+import BookItem from '@/app/book/list/components/BookItem';
 import React from 'react';
 import { Book } from '@/types/Book';
 

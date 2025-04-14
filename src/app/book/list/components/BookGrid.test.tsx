@@ -1,6 +1,6 @@
 import { Book } from '@/types/Book';
 import { fireEvent, render, screen } from '@testing-library/react';
-import BookGrid from '@/app/book-list/components/BookGrid';
+import BookGrid from '@/app/book/list/components/BookGrid';
 
 describe('BookGrid', () => {
   const testBookItems: Book[] = [
