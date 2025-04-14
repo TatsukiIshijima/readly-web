@@ -18,17 +18,21 @@ export default function BookItem({
   id,
   title,
   onClick,
-  imgUrl = 'https://placehold.jp/150x150.png',
+  imgUrl = 'https://placehold.jp/320x240.png',
   author = '',
 }: BookItemProps) {
   return (
-    <Card sx={{ maxWidth: 275 }}>
+    <Card sx={{ maxWidth: 345 }}>
       <CardActionArea onClick={() => onClick(id)}>
         <CardMedia
           component={'img'}
-          height={150}
+          height={140}
           image={imgUrl}
           alt={'Book Cover'}
+          sx={{
+            objectFit: 'cover',
+            objectPosition: 'center',
+          }}
         />
         <CardContent>
           <Typography variant="h6" color="textPrimary">

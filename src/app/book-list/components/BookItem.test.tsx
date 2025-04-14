@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import BookItem from '@/components/BookItem';
+import BookItem from '@/app/book-list/components/BookItem';
 
 describe('BookItem', () => {
   const setup = (propsOverrides = {}) => {
