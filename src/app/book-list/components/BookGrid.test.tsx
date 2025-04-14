@@ -60,8 +60,7 @@ describe('BookGrid', () => {
         const images = screen.getAllByAltText('Book Cover');
         expect(images[index]).toHaveAttribute('src', book.imgUrl);
       }
-      const cards = screen.getAllByRole('button');
-      fireEvent.click(cards[index]);
+      fireEvent.click(bookItems[index]);
       expect(onClick).toHaveBeenCalledWith(book.id);
     });
   });
