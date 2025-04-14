@@ -10,6 +10,16 @@ const roboto = Roboto({
 });
 
 const theme = createTheme({
+  breakpoints: {
+    // https://v4.mui.com/ja/customization/breakpoints/
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
   colorSchemes: { light: true, dark: true },
   cssVariables: true,
   typography: {
