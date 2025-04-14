@@ -23,8 +23,8 @@ export default function BookList() {
         }}
       >
         <BasicTabs
-          onChange={(v) => {
-            console.log('Selected value:', v);
+          onChange={(i) => {
+            console.log('Selected value:', readingStatusOptions[i].label);
           }}
           options={readingStatusOptions}
         />
@@ -39,7 +39,12 @@ export default function BookList() {
         </Button>
       </Box>
       <div>
-        <BookGrid books={dummyBooks} />
+        <BookGrid
+          books={dummyBooks}
+          onClick={(id) => {
+            console.log('Selected book ID:', id);
+          }}
+        />
       </div>
     </Box>
   );

@@ -38,9 +38,13 @@ export const dummyBooks: Book[] = [
 
 interface BookGridProps {
   books: Book[];
+  onClick: (id: number) => void;
 }
 
-export default function BookGrid({ books = dummyBooks }: BookGridProps) {
+export default function BookGrid({
+  books = dummyBooks,
+  onClick,
+}: BookGridProps) {
   return (
     <Box
       sx={{
@@ -60,7 +64,9 @@ export default function BookGrid({ books = dummyBooks }: BookGridProps) {
           title={book.title}
           author={book.author}
           imgUrl={book.imgUrl}
-          onClick={(id) => console.log(`Clicked: ${id}`)}
+          onClick={(id) => {
+            onClick(id);
+          }}
         />
       ))}
     </Box>

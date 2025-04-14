@@ -13,5 +13,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     books: dummyBooks,
+    onClick: (id) => {
+      console.log('Selected book ID:', id);
+    },
   },
 };
