@@ -1,12 +1,13 @@
 'use client';
 
 import BasicTextField from '@/components/BasicTextField';
-import { Box, Card, Stack, Typography, Link } from '@mui/material';
+import { Box, Stack, Typography, Link } from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
 import React from 'react';
 import { SIGN_IN_ATTRIBUTES } from '@/attributes/signInAttributes';
 import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
+import AuthContainer from '@/components/AuthContainer';
 
 export default function SignIn() {
   const [email, setEmail] = React.useState('');
@@ -56,94 +57,67 @@ export default function SignIn() {
     return isValid;
   };
 
-  console.log(window.innerWidth);
-
   return (
-    // TODO:Container化
-    <Box
-      display={'flex'}
-      justifyContent={'center'}
-      alignItems={'center'}
-      minHeight={'100vh'}
-    >
-      <Card
-        variant={'outlined'}
-        sx={{
-          width: {
-            xs: '100%', // extra-small(0~599px)の場合、width=100%
-            sm: 400, // small(600px以上)の場合、width=400px
-          },
-          p: 3, // themeのspace=8x3=24px
-          borderRadius: {
-            xs: 0,
-            sm: 2,
-          },
-          borderWidth: {
-            xs: 0,
-            sm: 1,
-          },
-        }}
+    <AuthContainer>
+      <Box display={'flex'} justifyContent={'center'} mb={4}>
+        <Typography component={'h1'} variant={'h4'}>
+          Readly
+        </Typography>
+      </Box>
+      <Stack
+        component={'form'}
+        onSubmit={handleSubmit}
+        method={'POST'}
+        spacing={4}
       >
-        <Box display={'flex'} justifyContent={'center'} mb={4}>
-          <Typography component={'h1'} variant={'h4'}>
-            Readly
-          </Typography>
-        </Box>
-        <Stack
-          component={'form'}
-          onSubmit={handleSubmit}
-          method={'POST'}
-          spacing={4}
-        >
-          <BasicTextField
-            value={email}
-            onChange={(v) => {
-              handleChangeEmail(v);
-            }}
-            id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-            label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
-            type={'email'}
-            name={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-            error={emailError}
-            errorMessage={
-              emailError ? COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE : ''
-            }
-            autoComplete={'email'}
-            autoFocus={true}
-          />
-          <PasswordTextField
-            password={password}
-            onChange={(v) => {
-              handleChangePassword(v);
-            }}
-            id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-            name={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-            label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
-            error={passwordError}
-            errorMessage={
-              passwordError
-                ? COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE
-                : ''
-            }
-            autoFocus={false}
-          />
-          <BasicButton
-            onClick={() => {
-              // do nothing
-            }}
-            id={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-            name={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-            label={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_LABEL}
-            type={'submit'}
-          />
-          <Typography sx={{ textAlign: 'center' }}>
-            Don&apos;t have an account?{' '}
-            <Link href={'/sign-up'} variant={'body2'}>
-              Sign Up
-            </Link>
-          </Typography>
-        </Stack>
-      </Card>
-    </Box>
+        <BasicTextField
+          value={email}
+          onChange={(v) => {
+            handleChangeEmail(v);
+          }}
+          id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
+          label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
+          type={'email'}
+          name={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
+          error={emailError}
+          errorMessage={
+            emailError ? COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE : ''
+          }
+          autoComplete={'email'}
+          autoFocus={true}
+        />
+        <PasswordTextField
+          password={password}
+          onChange={(v) => {
+            handleChangePassword(v);
+          }}
+          id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
+          name={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
+          label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
+          error={passwordError}
+          errorMessage={
+            passwordError
+              ? COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE
+              : ''
+          }
+          autoFocus={false}
+        />
+        <BasicButton
+          onClick={() => {
+            // do nothing
+          }}
+          id={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
+          name={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
+          label={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_LABEL}
+          type={'submit'}
+        />
+        <Typography sx={{ textAlign: 'center' }}>
+          Don&apos;t have an account?{' '}
+          <Link href={'/sign-up'} variant={'body2'}>
+            Sign Up
+          </Link>
+        </Typography>
+      </Stack>
+    </AuthContainer>
   );
 }
