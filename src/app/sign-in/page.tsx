@@ -56,17 +56,33 @@ export default function SignIn() {
     return isValid;
   };
 
+  console.log(window.innerWidth);
+
   return (
+    // TODO:Container化
     <Box
       display={'flex'}
       justifyContent={'center'}
       alignItems={'center'}
       minHeight={'100vh'}
-      px={2}
     >
       <Card
         variant={'outlined'}
-        sx={{ width: '100%', maxWidth: 400, p: { xs: 3, sm: 4 } }}
+        sx={{
+          width: {
+            xs: '100%', // extra-small(0~599px)の場合、width=100%
+            sm: 400, // small(600px以上)の場合、width=400px
+          },
+          p: 3, // themeのspace=8x3=24px
+          borderRadius: {
+            xs: 0,
+            sm: 2,
+          },
+          borderWidth: {
+            xs: 0,
+            sm: 1,
+          },
+        }}
       >
         <Box display={'flex'} justifyContent={'center'} mb={4}>
           <Typography component={'h1'} variant={'h4'}>
