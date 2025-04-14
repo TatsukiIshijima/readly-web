@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import BookGrid, { dummyBooks } from '@/app/book-list/components/BookGrid';
+import BookGrid, { dummyBooks } from '@/app/book/list/components/BookGrid';
 import { Box, Button } from '@mui/material';
 import BasicTabs from '@/components/BasicTabs';
 
