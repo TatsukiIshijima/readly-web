@@ -37,7 +37,7 @@ export default function BookList() {
             console.log('onClick register button');
           }}
         >
-          新規登録
+          New
         </Button>
       </Box>
       <div>
