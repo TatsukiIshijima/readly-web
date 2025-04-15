@@ -14,9 +14,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import BasicTextField from '@/components/BasicTextField';
 import BasicButton from '@/components/BasicButton';
 import React from 'react';
-import { SelectChangeEvent } from 'node_modules/@mui/material/Select';
 import { useTextField } from '@/hooks/useTextField';
 import { useDatePicker } from '@/hooks/useDatePicker';
+import { useMultiSelect, useSingleSelect } from '@/hooks/useSelect';
 
 const dummyGenres = [
   'genre1',
@@ -40,14 +40,8 @@ export default function BookRegister() {
   const publishDate = useDatePicker();
   const startDate = useDatePicker();
   const endDate = useDatePicker();
-  const [genres, setGenres] = React.useState<string[]>([]);
-
-  const handleSelectChange = (event: SelectChangeEvent<typeof genres>) => {
-    const {
-      target: { value },
-    } = event;
-    setGenres(typeof value === 'string' ? value.split(',') : value);
-  };
+  const statusSelect = useSingleSelect<string>('unread');
+  const genresSelect = useMultiSelect<string>();
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -100,8 +94,8 @@ export default function BookRegister() {
             labelId={'genre-label'}
             id={'genre-select'}
             multiple
-            value={genres}
-            onChange={handleSelectChange}
+            value={genresSelect.value}
+            onChange={genresSelect.onChange}
             input={
               <OutlinedInput id={'selected-multiple-chip'} label={'Genres'} />
             }
@@ -126,7 +120,8 @@ export default function BookRegister() {
             labelId={'reading-status'}
             id={'reading-status-select'}
             label={'Reading Status'}
-            defaultValue={'unread'}
+            value={statusSelect.value}
+            onChange={statusSelect.onChange}
           >
             <MenuItem value={'unread'}>Unread</MenuItem>
             <MenuItem value={'reading'}>Reading</MenuItem>
