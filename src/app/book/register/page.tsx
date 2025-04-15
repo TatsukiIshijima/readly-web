@@ -15,6 +15,8 @@ import BasicTextField from '@/components/BasicTextField';
 import BasicButton from '@/components/BasicButton';
 import React from 'react';
 import { SelectChangeEvent } from 'node_modules/@mui/material/Select';
+import { useTextField } from '@/hooks/useTextField';
+import { useDatePicker } from '@/hooks/useDatePicker';
 
 const dummyGenres = [
   'genre1',
@@ -30,6 +32,14 @@ const dummyGenres = [
 ];
 
 export default function BookRegister() {
+  const titleText = useTextField('');
+  const authorText = useTextField('');
+  const publisherText = useTextField('');
+  const isbnText = useTextField('');
+  const urlText = useTextField('');
+  const publishDate = useDatePicker();
+  const startDate = useDatePicker();
+  const endDate = useDatePicker();
   const [genres, setGenres] = React.useState<string[]>([]);
 
   const handleSelectChange = (event: SelectChangeEvent<typeof genres>) => {
@@ -43,51 +53,47 @@ export default function BookRegister() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack component={'form'} method={'POST'} spacing={4}>
         <BasicTextField
-          value={''}
-          onChange={() => {}}
+          value={titleText.value}
+          onChange={titleText.onChange}
           id={'title'}
           label={'タイトル'}
           type={'text'}
           error={false}
           errorMessage={''}
-        ></BasicTextField>
+        />
         <BasicTextField
-          value={''}
-          onChange={() => {}}
+          value={authorText.value}
+          onChange={authorText.onChange}
           id={'author'}
           label={'著者'}
           type={'text'}
-          error={false}
-          errorMessage={''}
-        ></BasicTextField>
+        />
         <BasicTextField
-          value={''}
-          onChange={() => {}}
+          value={publisherText.value}
+          onChange={publisherText.onChange}
           id={'publisher'}
           label={'出版社'}
           type={'text'}
-          error={false}
-          errorMessage={''}
-        ></BasicTextField>
+        />
         <BasicTextField
-          value={''}
-          onChange={() => {}}
+          value={isbnText.value}
+          onChange={isbnText.onChange}
           id={'isbn'}
           label={'ISBN'}
           type={'text'}
-          error={false}
-          errorMessage={''}
-        ></BasicTextField>
-        <DatePicker label="発売日"></DatePicker>
+        />
+        <DatePicker
+          label="発売日"
+          value={publishDate.value}
+          onChange={publishDate.onChange}
+        />
         <BasicTextField
-          value={''}
-          onChange={() => {}}
+          value={urlText.value}
+          onChange={urlText.onChange}
           id={'url'}
           label={'URL'}
           type={'url'}
-          error={false}
-          errorMessage={''}
-        ></BasicTextField>
+        />
         <FormControl fullWidth={true}>
           <InputLabel id={'genre-label'}>Genres</InputLabel>
           <Select
@@ -127,15 +133,23 @@ export default function BookRegister() {
             <MenuItem value={'done'}>Done</MenuItem>
           </Select>
         </FormControl>
-        <DatePicker label="開始日"></DatePicker>
-        <DatePicker label="終了日"></DatePicker>
+        <DatePicker
+          label="開始日"
+          value={startDate.value}
+          onChange={startDate.onChange}
+        />
+        <DatePicker
+          label="終了日"
+          value={endDate.value}
+          onChange={endDate.onChange}
+        />
         <BasicButton
           onClick={() => {}}
           id={'submit-button'}
           name={'submit-button'}
           label={'登録'}
           type={'submit'}
-        ></BasicButton>
+        />
       </Stack>
     </LocalizationProvider>
   );
