@@ -1,13 +1,6 @@
-import {
-  Box,
-  Chip,
-  Stack,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-  OutlinedInput,
-} from '@mui/material';
+'use client';
+
+import { Stack } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -19,19 +12,8 @@ import { useDatePicker } from '@/hooks/useDatePicker';
 import { useMultiSelect, useSingleSelect } from '@/hooks/useSelect';
 import SingleSelect from '@/components/SingleSelect';
 import { ReadingStatus, ReadingStatusList } from '@/types/ReadingStatus';
-
-const dummyGenres = [
-  'genre1',
-  'genre2',
-  'genre3',
-  'genre4',
-  'genre5',
-  'genre6',
-  'genre7',
-  'genre8',
-  'genre9',
-  'genre10',
-];
+import MultiSelect from '@/components/MultiSelect';
+import { dummyGenres } from '@/libs/testdata/dummy';
 
 export default function BookRegister() {
   const titleText = useTextField('');
@@ -90,32 +72,12 @@ export default function BookRegister() {
           label={'URL'}
           type={'url'}
         />
-        <FormControl fullWidth={true}>
-          <InputLabel id={'genre-label'}>Genres</InputLabel>
-          <Select
-            labelId={'genre-label'}
-            id={'genre-select'}
-            multiple
-            value={genresSelect.value}
-            onChange={genresSelect.onChange}
-            input={
-              <OutlinedInput id={'selected-multiple-chip'} label={'Genres'} />
-            }
-            renderValue={(selected: string[]) => (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '0.5' }}>
-                {selected.map((value) => {
-                  return <Chip key={value} label={value} />;
-                })}
-              </Box>
-            )}
-          >
-            {dummyGenres.map((value) => (
-              <MenuItem key={value} value={value}>
-                {value}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <MultiSelect
+          label={'Genre'}
+          items={dummyGenres}
+          selectedValue={genresSelect.value}
+          onChange={genresSelect.onChange}
+        />
         <SingleSelect
           label={'Reading Status'}
           items={[...ReadingStatusList]}
