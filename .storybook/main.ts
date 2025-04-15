@@ -13,5 +13,13 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ['../public'],
+
+  async viteFinal(config) {
+    config.optimizeDeps = {
+      ...config.optimizeDeps,
+      include: [...(config.optimizeDeps?.include || []), 'dayjs'],
+    };
+    return config;
+  },
 };
 export default config;
