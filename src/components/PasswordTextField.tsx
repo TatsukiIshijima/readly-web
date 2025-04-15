@@ -11,7 +11,7 @@ import React from 'react';
 
 interface PasswordTextFieldProps {
   password: string;
-  onChange: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   id: string;
   label: string;
   error: boolean;
@@ -65,9 +65,7 @@ export default function PasswordTextField({
         autoComplete={autoComplete}
         autoFocus={autoFocus}
         value={password}
-        onChange={(e) => {
-          onChange(e.target.value);
-        }}
+        onChange={onChange}
         endAdornment={
           <InputAdornment position={'end'}>
             <IconButton
