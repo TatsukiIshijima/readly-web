@@ -17,6 +17,8 @@ import React from 'react';
 import { useTextField } from '@/hooks/useTextField';
 import { useDatePicker } from '@/hooks/useDatePicker';
 import { useMultiSelect, useSingleSelect } from '@/hooks/useSelect';
+import SingleSelect from '@/components/SingleSelect';
+import { ReadingStatus, ReadingStatusList } from '@/types/ReadingStatus';
 
 const dummyGenres = [
   'genre1',
@@ -40,7 +42,7 @@ export default function BookRegister() {
   const publishDate = useDatePicker();
   const startDate = useDatePicker();
   const endDate = useDatePicker();
-  const statusSelect = useSingleSelect<string>('unread');
+  const statusSelect = useSingleSelect<ReadingStatus>('unread');
   const genresSelect = useMultiSelect<string>();
 
   return (
@@ -50,7 +52,7 @@ export default function BookRegister() {
           value={titleText.value}
           onChange={titleText.onChange}
           id={'title'}
-          label={'タイトル'}
+          label={'Title'}
           type={'text'}
           error={false}
           errorMessage={''}
@@ -59,14 +61,14 @@ export default function BookRegister() {
           value={authorText.value}
           onChange={authorText.onChange}
           id={'author'}
-          label={'著者'}
+          label={'Author'}
           type={'text'}
         />
         <BasicTextField
           value={publisherText.value}
           onChange={publisherText.onChange}
           id={'publisher'}
-          label={'出版社'}
+          label={'Publisher'}
           type={'text'}
         />
         <BasicTextField
@@ -77,7 +79,7 @@ export default function BookRegister() {
           type={'text'}
         />
         <DatePicker
-          label="発売日"
+          label="Publish Date"
           value={publishDate.value}
           onChange={publishDate.onChange}
         />
@@ -114,27 +116,20 @@ export default function BookRegister() {
             ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth={true}>
-          <InputLabel id={'reading-status-label'}>Reading Status</InputLabel>
-          <Select
-            labelId={'reading-status'}
-            id={'reading-status-select'}
-            label={'Reading Status'}
-            value={statusSelect.value}
-            onChange={statusSelect.onChange}
-          >
-            <MenuItem value={'unread'}>Unread</MenuItem>
-            <MenuItem value={'reading'}>Reading</MenuItem>
-            <MenuItem value={'done'}>Done</MenuItem>
-          </Select>
-        </FormControl>
+        <SingleSelect
+          label={'Reading Status'}
+          items={[...ReadingStatusList]}
+          value={statusSelect.value}
+          onChange={statusSelect.onChange}
+          fullWidth={true}
+        />
         <DatePicker
-          label="開始日"
+          label="Start Date"
           value={startDate.value}
           onChange={startDate.onChange}
         />
         <DatePicker
-          label="終了日"
+          label="End Date"
           value={endDate.value}
           onChange={endDate.onChange}
         />
@@ -142,7 +137,7 @@ export default function BookRegister() {
           onClick={() => {}}
           id={'submit-button'}
           name={'submit-button'}
-          label={'登録'}
+          label={'Register'}
           type={'submit'}
         />
       </Stack>
