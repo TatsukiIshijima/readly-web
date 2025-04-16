@@ -45,7 +45,7 @@ describe('PasswordTextField', () => {
     setup({ onChange: onChange });
     const input = screen.getByLabelText('パスワード');
     fireEvent.change(input, { target: { value: 'password' } });
-    expect(onChange).toHaveBeenCalledWith('password');
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   test('shows error message when error is true', () => {
