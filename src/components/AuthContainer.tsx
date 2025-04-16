@@ -9,9 +9,9 @@ export default function AuthContainer({
   return (
     <Box
       display={'flex'}
-      justifyContent={'center'}
-      alignItems={'center'}
-      minHeight={'100vh'}
+      justifyContent={'center'} // 主軸方向の配置を中央に
+      alignItems={'center'} // 交差軸方向の配置を中央に
+      minHeight={'100vh'} // viewport height 100%=画面の高さと同等
     >
       <Card
         variant={'outlined'}
