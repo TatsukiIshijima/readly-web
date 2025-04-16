@@ -8,10 +8,11 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import React from 'react';
+import { useToggle } from '@/hooks/useToggle';
 
 interface PasswordTextFieldProps {
   password: string;
-  onChange: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   id: string;
   label: string;
   error: boolean;
@@ -34,11 +35,7 @@ export default function PasswordTextField({
   error = false,
   errorMessage = '',
 }: PasswordTextFieldProps) {
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => {
-    setShowPassword((show) => !show);
-  };
+  const showPassword = useToggle(false);
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -59,27 +56,27 @@ export default function PasswordTextField({
       </InputLabel>
       <OutlinedInput
         id={id}
-        type={showPassword ? 'text' : 'password'}
+        type={showPassword.value ? 'text' : 'password'}
         name={name}
         error={error}
         autoComplete={autoComplete}
         autoFocus={autoFocus}
         value={password}
-        onChange={(e) => {
-          onChange(e.target.value);
-        }}
+        onChange={onChange}
         endAdornment={
           <InputAdornment position={'end'}>
             <IconButton
               aria-label={
-                showPassword ? 'hide the password' : 'display the password'
+                showPassword.value
+                  ? 'hide the password'
+                  : 'display the password'
               }
-              onClick={handleClickShowPassword}
+              onClick={showPassword.onChange}
               onMouseDown={handleMouseDownPassword}
               onMouseUp={handleMouseUpPassword}
               edge={'end'}
             >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
+              {showPassword.value ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>
         }

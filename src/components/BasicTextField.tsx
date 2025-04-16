@@ -1,14 +1,14 @@
 import { TextField } from '@mui/material';
-import { HTMLInputTypeAttribute } from 'react';
+import React, { HTMLInputTypeAttribute } from 'react';
 
 interface BasicTextFieldProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   id: string;
   label: string;
   type: HTMLInputTypeAttribute;
-  error: boolean;
-  errorMessage: string;
+  error?: boolean;
+  errorMessage?: string;
   name?: string;
   autoComplete?: string;
   autoFocus?: boolean;
@@ -42,9 +42,7 @@ export default function BasicTextField({
       autoComplete={autoComplete}
       autoFocus={autoFocus}
       value={value}
-      onChange={(e) => {
-        onChange(e.target.value);
-      }}
+      onChange={onChange}
     ></TextField>
   );
 }

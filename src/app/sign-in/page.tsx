@@ -8,23 +8,19 @@ import React from 'react';
 import { SIGN_IN_ATTRIBUTES } from '@/attributes/signInAttributes';
 import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
 import AuthContainer from '@/components/AuthContainer';
+import { useTextField } from '@/hooks/useTextField';
 
 export default function SignIn() {
-  const [email, setEmail] = React.useState('');
+  const emailTextFiled = useTextField('');
+  const passwordTextField = useTextField('');
   const [emailError, setEmailError] = React.useState(false);
-  const [password, setPassword] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
 
-  const handleChangeEmail = (value: string) => {
-    setEmail(value);
-  };
-
-  const handleChangePassword = (value: string) => {
-    setPassword(value);
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const isValid = validateInputs(email, password);
+    const isValid = validateInputs(
+      emailTextFiled.value,
+      passwordTextField.value.toString()
+    );
     if (!isValid) {
       e.preventDefault();
       return;
@@ -71,10 +67,8 @@ export default function SignIn() {
         spacing={4}
       >
         <BasicTextField
-          value={email}
-          onChange={(v) => {
-            handleChangeEmail(v);
-          }}
+          value={emailTextFiled.value}
+          onChange={emailTextFiled.onChange}
           id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
           label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
           type={'email'}
@@ -87,10 +81,8 @@ export default function SignIn() {
           autoFocus={true}
         />
         <PasswordTextField
-          password={password}
-          onChange={(v) => {
-            handleChangePassword(v);
-          }}
+          password={passwordTextField.value}
+          onChange={passwordTextField.onChange}
           id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
           name={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
           label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}

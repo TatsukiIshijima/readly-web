@@ -8,29 +8,22 @@ import BasicButton from '@/components/BasicButton';
 import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
 import { SIGN_UP_ATTRIBUTES } from '@/attributes/signUpAttributes';
 import AuthContainer from '@/components/AuthContainer';
+import { useTextField } from '@/hooks/useTextField';
 
 export default function SignUp() {
-  const [userName, setUserName] = React.useState('');
+  const userNameTextField = useTextField('');
+  const emailTextField = useTextField('');
+  const passwordTextField = useTextField('');
   const [userNameError, setUserNameError] = React.useState(false);
-  const [email, setEmail] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
-  const [password, setPassword] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
 
-  const handleChangeUserName = (value: string) => {
-    setUserName(value);
-  };
-
-  const handleChangeEmail = (value: string) => {
-    setEmail(value);
-  };
-
-  const handleChangePassword = (value: string) => {
-    setPassword(value);
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const isValid = validateInputs(userName, email, password);
+    const isValid = validateInputs(
+      userNameTextField.value,
+      emailTextField.value,
+      passwordTextField.value
+    );
     if (!isValid) {
       e.preventDefault();
       return;
@@ -90,10 +83,8 @@ export default function SignUp() {
         spacing={4}
       >
         <BasicTextField
-          value={userName}
-          onChange={(v) => {
-            handleChangeUserName(v);
-          }}
+          value={userNameTextField.value}
+          onChange={userNameTextField.onChange}
           id={COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_NAME}
           label={COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_LABEL}
           type={'text'}
@@ -107,10 +98,8 @@ export default function SignUp() {
           autoFocus={true}
         />
         <BasicTextField
-          value={email}
-          onChange={(v) => {
-            handleChangeEmail(v);
-          }}
+          value={emailTextField.value}
+          onChange={emailTextField.onChange}
           id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
           label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
           type={'email'}
@@ -122,10 +111,8 @@ export default function SignUp() {
           autoFocus={false}
         />
         <PasswordTextField
-          password={password}
-          onChange={(v) => {
-            handleChangePassword(v);
-          }}
+          password={passwordTextField.value}
+          onChange={passwordTextField.onChange}
           id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
           label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
           error={passwordError}
