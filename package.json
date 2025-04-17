@@ -17,6 +17,7 @@
     "protobuf-gen": "buf generate"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^2.2.5",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -31,6 +32,8 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@bufbuild/buf": "^1.52.1",
+    "@bufbuild/protoc-gen-es": "^2.2.5",
     "@chromatic-com/storybook": "^3.2.6",
     "@eslint/eslintrc": "^3",
     "@storybook/addon-essentials": "^8.6.12",
