@@ -1,14 +1,14 @@
 class ApiClient {
   private readonly baseURL: string;
-  private authTokenProvider: AuthTokenProvider;
+  private readonly authTokenAccessor: AuthTokenAccessor;
 
-  constructor(baseURL: string, authTokenProvider: AuthTokenProvider) {
+  constructor(baseURL: string, authTokenAccessor: AuthTokenAccessor) {
     this.baseURL = baseURL;
-    this.authTokenProvider = authTokenProvider;
+    this.authTokenAccessor = authTokenAccessor;
   }
 
   private authInterceptor(options: RequestInit = {}): RequestInit {
-    const token = this.authTokenProvider.getAuthToken();
+    const token = this.authTokenAccessor.getAuthToken();
     if (token) {
       options.headers = {
         ...options.headers,
