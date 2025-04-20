@@ -1,4 +1,6 @@
-class ApiClient {
+import { AuthTokenAccessor } from '@/libs/storage/AuthTokenAccessor';
+
+export class ApiClient {
   private readonly baseURL: string;
   private readonly authTokenAccessor: AuthTokenAccessor;
 

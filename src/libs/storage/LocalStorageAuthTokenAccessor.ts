@@ -1,12 +1,6 @@
-interface AuthTokenAccessor {
-  getAuthToken(): string | null;
+import { AuthTokenAccessor } from '@/libs/storage/AuthTokenAccessor';
 
-  setAuthToken(token: string): void;
-
-  clearAuthToken(): void;
-}
-
-class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
+export class LocalStorageAuthTokenAccessor implements AuthTokenAccessor {
   private static readonly AUTH_TOKEN_KEY = 'authToken';
 
   getAuthToken(): string | null {
