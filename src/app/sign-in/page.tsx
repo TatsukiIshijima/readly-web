@@ -4,11 +4,12 @@ import BasicTextField from '@/components/BasicTextField';
 import { Box, Stack, Typography, Link } from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SIGN_IN_ATTRIBUTES } from '@/attributes/signInAttributes';
 import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
 import AuthContainer from '@/components/AuthContainer';
 import { useTextField } from '@/hooks/useTextField';
+import { useAppContainer } from '@/components/providers/AppContainerProvider';
 
 export default function SignIn() {
   const emailTextFiled = useTextField('');
@@ -52,6 +53,14 @@ export default function SignIn() {
 
     return isValid;
   };
+
+  // 試し
+  const appContainer = useAppContainer();
+  useEffect(() => {
+    (async () => {
+      await appContainer.apiClient.get('');
+    })();
+  });
 
   return (
     <AuthContainer>
