@@ -6,79 +6,12 @@ import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
 import AuthContainer from '@/components/AuthContainer';
 import React from 'react';
+import { useSignInPage } from '@/app/sign-in/hook/useSignInPage';
 import { useUserRepository } from '@/components/providers/UserRepositoryProvider';
-import {
-  initialSignInPageState,
-  signInPageReducer,
-} from '@/app/sign-in/reducer/SignInPageReducer';
 
 export default function SignIn() {
   const userRepository = useUserRepository();
-  const [state, dispatch] = React.useReducer(
-    signInPageReducer,
-    initialSignInPageState
-  );
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: 'INPUT_EMAIL', value: e.target.value });
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: 'INPUT_PASSWORD', value: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const isValid = validateInputs(state.email, state.password);
-    if (!isValid) {
-      e.preventDefault();
-      return;
-    }
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email-text-field');
-    const password = formData.get('password-text-field');
-    console.log({
-      email: email,
-      password: password,
-    });
-    // 試し
-    await userRepository.signIn(
-      email?.toString() ?? '',
-      password?.toString() ?? ''
-    );
-  };
-
-  // TODO:ロジック側に移動
-  const validateInputs = (email: string, password: string) => {
-    let isValid = true;
-
-    if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
-      dispatch({
-        type: 'VALIDATE_EMAIL',
-        error: 'メールアドレスを入力してください',
-      });
-      isValid = false;
-    } else {
-      dispatch({
-        type: 'VALIDATE_EMAIL',
-        error: '',
-      });
-    }
-
-    if (password === '' || password.length < 6) {
-      dispatch({
-        type: 'VALIDATE_PASSWORD',
-        error: 'パスワードは6文字以上で入力してください',
-      });
-      isValid = false;
-    } else {
-      dispatch({
-        type: 'VALIDATE_PASSWORD',
-        error: '',
-      });
-    }
-
-    return isValid;
-  };
+  const signInPage = useSignInPage(userRepository);
 
   return (
     <AuthContainer>
@@ -89,30 +22,30 @@ export default function SignIn() {
       </Box>
       <Stack
         component={'form'}
-        onSubmit={handleSubmit}
+        onSubmit={signInPage.onSubmit}
         method={'POST'}
         spacing={4}
       >
         <BasicTextField
-          value={state.email}
-          onChange={handleEmailChange}
+          value={signInPage.state.email}
+          onChange={signInPage.onChangeEmail}
           id={'email-text-field'}
           label={'Email'}
           type={'email'}
           name={'email-text-field'}
-          error={state.emailValidateErrorMessage !== ''}
-          errorMessage={state.emailValidateErrorMessage}
+          error={signInPage.state.emailValidateErrorMessage !== ''}
+          errorMessage={signInPage.state.emailValidateErrorMessage}
           autoComplete={'email'}
           autoFocus={true}
         />
         <PasswordTextField
-          password={state.password}
-          onChange={handlePasswordChange}
+          password={signInPage.state.password}
+          onChange={signInPage.onChangePassword}
           id={'password-text-field'}
           name={'password-text-field'}
           label={'Password'}
-          error={state.passwordValidateErrorMessage !== ''}
-          errorMessage={state.passwordValidateErrorMessage}
+          error={signInPage.state.passwordValidateErrorMessage !== ''}
+          errorMessage={signInPage.state.passwordValidateErrorMessage}
           autoFocus={false}
         />
         <BasicButton
