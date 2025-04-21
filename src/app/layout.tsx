@@ -5,6 +5,7 @@ import theme from '@/theme';
 import { AuthApiClientProvider } from '@/components/providers/AuthApiClientProvider';
 import { AuthTokenAccessorProvider } from '@/components/providers/AuthTokenAccessorProvider';
 import { ApiClientProvider } from '@/components/providers/ApiClientProvider';
+import { UserRepositoryProvider } from '@/components/providers/UserRepositoryProvider';
 
 export default function RootLayout({
   children,
@@ -18,7 +19,9 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <AuthTokenAccessorProvider>
               <ApiClientProvider>
-                <AuthApiClientProvider>{children}</AuthApiClientProvider>
+                <AuthApiClientProvider>
+                  <UserRepositoryProvider>{children}</UserRepositoryProvider>
+                </AuthApiClientProvider>
               </ApiClientProvider>
             </AuthTokenAccessorProvider>
           </ThemeProvider>

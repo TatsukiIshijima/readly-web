@@ -9,14 +9,14 @@ import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
 import AuthContainer from '@/components/AuthContainer';
 import { useTextField } from '@/hooks/useTextField';
 import React from 'react';
-import { useAuthApiClient } from '@/components/providers/AuthApiClientProvider';
+import { useUserRepository } from '@/components/providers/UserRepositoryProvider';
 
 export default function SignIn() {
   const emailTextFiled = useTextField('');
   const passwordTextField = useTextField('');
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
-  const authApiClient = useAuthApiClient();
+  const userRepository = useUserRepository();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     const isValid = validateInputs(
@@ -35,7 +35,7 @@ export default function SignIn() {
       password: password,
     });
     // 試し
-    await authApiClient.signIn(
+    await userRepository.signIn(
       email?.toString() ?? '',
       password?.toString() ?? ''
     );
