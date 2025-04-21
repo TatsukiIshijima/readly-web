@@ -39,9 +39,17 @@ export function signInPageReducer(
     case 'VALIDATE_PASSWORD':
       return { ...state, passwordValidateErrorMessage: action.error };
     case 'REQUEST_SIGN_IN':
-      return { ...state, isRequesting: true };
+      return {
+        ...state,
+        isRequesting: true,
+        signInErrorMessage: '',
+      };
     case 'SUCCESS_SIGN_IN':
-      return { ...state, isRequesting: false };
+      return {
+        ...state,
+        isRequesting: false,
+        signInErrorMessage: '',
+      };
     case 'FAILURE_SIGN_IN':
       return {
         ...state,
