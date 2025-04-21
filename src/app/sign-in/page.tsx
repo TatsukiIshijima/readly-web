@@ -4,8 +4,6 @@ import BasicTextField from '@/components/BasicTextField';
 import { Box, Stack, Typography, Link } from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
-import { SIGN_IN_ATTRIBUTES } from '@/attributes/signInAttributes';
-import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
 import AuthContainer from '@/components/AuthContainer';
 import React from 'react';
 import { useUserRepository } from '@/components/providers/UserRepositoryProvider';
@@ -36,8 +34,8 @@ export default function SignIn() {
       return;
     }
     const formData = new FormData(e.currentTarget);
-    const email = formData.get(COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME);
-    const password = formData.get(COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME);
+    const email = formData.get('email-text-field');
+    const password = formData.get('password-text-field');
     console.log({
       email: email,
       password: password,
@@ -56,7 +54,7 @@ export default function SignIn() {
     if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
       dispatch({
         type: 'VALIDATE_EMAIL',
-        error: COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE,
+        error: 'メールアドレスを入力してください',
       });
       isValid = false;
     } else {
@@ -69,7 +67,7 @@ export default function SignIn() {
     if (password === '' || password.length < 6) {
       dispatch({
         type: 'VALIDATE_PASSWORD',
-        error: COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE,
+        error: 'パスワードは6文字以上で入力してください',
       });
       isValid = false;
     } else {
@@ -98,10 +96,10 @@ export default function SignIn() {
         <BasicTextField
           value={state.email}
           onChange={handleEmailChange}
-          id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
+          id={'email-text-field'}
+          label={'Email'}
           type={'email'}
-          name={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
+          name={'email-text-field'}
           error={state.emailValidateErrorMessage !== ''}
           errorMessage={state.emailValidateErrorMessage}
           autoComplete={'email'}
@@ -110,9 +108,9 @@ export default function SignIn() {
         <PasswordTextField
           password={state.password}
           onChange={handlePasswordChange}
-          id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-          name={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
+          id={'password-text-field'}
+          name={'password-text-field'}
+          label={'Password'}
           error={state.passwordValidateErrorMessage !== ''}
           errorMessage={state.passwordValidateErrorMessage}
           autoFocus={false}
@@ -121,9 +119,9 @@ export default function SignIn() {
           onClick={() => {
             // do nothing
           }}
-          id={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-          name={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-          label={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_LABEL}
+          id={'sign-in-button'}
+          name={'sign-in-button'}
+          label={'Sign In'}
           type={'submit'}
         />
         <Typography sx={{ textAlign: 'center' }}>
