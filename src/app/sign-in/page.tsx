@@ -10,7 +10,7 @@ import { useUserRepository } from '@/components/providers/UserRepositoryProvider
 import {
   initialSignInPageState,
   signInPageReducer,
-} from '@/libs/reducer/SignInPageReducer';
+} from '@/app/sign-in/reducer/SignInPageReducer';
 
 export default function SignIn() {
   const userRepository = useUserRepository();
