@@ -4,19 +4,21 @@ import BasicTextField from '@/components/BasicTextField';
 import { Box, Stack, Typography, Link } from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
-import React from 'react';
 import { SIGN_IN_ATTRIBUTES } from '@/attributes/signInAttributes';
 import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
 import AuthContainer from '@/components/AuthContainer';
 import { useTextField } from '@/hooks/useTextField';
+import React from 'react';
+import { useAuthApiClient } from '@/components/providers/AuthApiClientProvider';
 
 export default function SignIn() {
   const emailTextFiled = useTextField('');
   const passwordTextField = useTextField('');
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
+  const authApiClient = useAuthApiClient();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     const isValid = validateInputs(
       emailTextFiled.value,
       passwordTextField.value.toString()
@@ -26,10 +28,17 @@ export default function SignIn() {
       return;
     }
     const formData = new FormData(e.currentTarget);
+    const email = formData.get(COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME);
+    const password = formData.get(COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME);
     console.log({
-      email: formData.get(COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME),
-      password: formData.get(COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME),
+      email: email,
+      password: password,
     });
+    // 試し
+    await authApiClient.signIn(
+      email?.toString() ?? '',
+      password?.toString() ?? ''
+    );
   };
 
   // TODO:ロジック側に移動
