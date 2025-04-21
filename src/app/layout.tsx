@@ -2,7 +2,9 @@ import React from 'react';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme';
-import AppContainerProvider from '@/components/providers/AppContainerProvider';
+import { AuthApiClientProvider } from '@/components/providers/AuthApiClientProvider';
+import { AuthTokenAccessorProvider } from '@/components/providers/AuthTokenAccessorProvider';
+import { ApiClientProvider } from '@/components/providers/ApiClientProvider';
 
 export default function RootLayout({
   children,
@@ -14,7 +16,11 @@ export default function RootLayout({
       <body>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
-            <AppContainerProvider>{children}</AppContainerProvider>
+            <AuthTokenAccessorProvider>
+              <ApiClientProvider>
+                <AuthApiClientProvider>{children}</AuthApiClientProvider>
+              </ApiClientProvider>
+            </AuthTokenAccessorProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
