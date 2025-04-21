@@ -7,22 +7,30 @@ import BasicButton from '@/components/BasicButton';
 import { SIGN_IN_ATTRIBUTES } from '@/attributes/signInAttributes';
 import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
 import AuthContainer from '@/components/AuthContainer';
-import { useTextField } from '@/hooks/useTextField';
 import React from 'react';
 import { useUserRepository } from '@/components/providers/UserRepositoryProvider';
+import {
+  initialSignInPageState,
+  signInPageReducer,
+} from '@/libs/reducer/SignInPageReducer';
 
 export default function SignIn() {
-  const emailTextFiled = useTextField('');
-  const passwordTextField = useTextField('');
-  const [emailError, setEmailError] = React.useState(false);
-  const [passwordError, setPasswordError] = React.useState(false);
   const userRepository = useUserRepository();
+  const [state, dispatch] = React.useReducer(
+    signInPageReducer,
+    initialSignInPageState
+  );
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch({ type: 'INPUT_EMAIL', value: e.target.value });
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch({ type: 'INPUT_PASSWORD', value: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const isValid = validateInputs(
-      emailTextFiled.value,
-      passwordTextField.value.toString()
-    );
+    const isValid = validateInputs(state.email, state.password);
     if (!isValid) {
       e.preventDefault();
       return;
@@ -46,17 +54,29 @@ export default function SignIn() {
     let isValid = true;
 
     if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
-      setEmailError(true);
+      dispatch({
+        type: 'VALIDATE_EMAIL',
+        error: COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE,
+      });
       isValid = false;
     } else {
-      setEmailError(false);
+      dispatch({
+        type: 'VALIDATE_EMAIL',
+        error: '',
+      });
     }
 
     if (password === '' || password.length < 6) {
-      setPasswordError(true);
+      dispatch({
+        type: 'VALIDATE_PASSWORD',
+        error: COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE,
+      });
       isValid = false;
     } else {
-      setPasswordError(false);
+      dispatch({
+        type: 'VALIDATE_PASSWORD',
+        error: '',
+      });
     }
 
     return isValid;
@@ -76,31 +96,25 @@ export default function SignIn() {
         spacing={4}
       >
         <BasicTextField
-          value={emailTextFiled.value}
-          onChange={emailTextFiled.onChange}
+          value={state.email}
+          onChange={handleEmailChange}
           id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
           label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
           type={'email'}
           name={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-          error={emailError}
-          errorMessage={
-            emailError ? COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE : ''
-          }
+          error={state.emailValidateErrorMessage !== ''}
+          errorMessage={state.emailValidateErrorMessage}
           autoComplete={'email'}
           autoFocus={true}
         />
         <PasswordTextField
-          password={passwordTextField.value}
-          onChange={passwordTextField.onChange}
+          password={state.password}
+          onChange={handlePasswordChange}
           id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
           name={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
           label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
-          error={passwordError}
-          errorMessage={
-            passwordError
-              ? COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE
-              : ''
-          }
+          error={state.passwordValidateErrorMessage !== ''}
+          errorMessage={state.passwordValidateErrorMessage}
           autoFocus={false}
         />
         <BasicButton
