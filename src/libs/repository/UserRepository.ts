@@ -1,9 +1,11 @@
 import { AuthApiClient } from '@/libs/api/AuthApiClient';
+import { SignUpRequest, SignUpResponse } from '@/libs/pb/rpc_sign_up_pb';
+import { SignInRequest, SignInResponse } from '@/libs/pb/rpc_sign_in_pb';
 
 export interface UserRepository {
-  signUp(username: string, email: string, password: string): Promise<void>;
+  signUp(request: SignUpRequest): Promise<SignUpResponse>;
 
-  signIn(username: string, password: string): Promise<void>;
+  signIn(request: SignInRequest): Promise<SignInResponse>;
 }
 
 export class UserRepositoryImpl implements UserRepository {
@@ -13,15 +15,11 @@ export class UserRepositoryImpl implements UserRepository {
     this.authApiClient = authApiClient;
   }
 
-  async signUp(
-    username: string,
-    email: string,
-    password: string
-  ): Promise<void> {
-    await this.authApiClient.signUp(username, email, password);
+  async signUp(request: SignUpRequest): Promise<SignUpResponse> {
+    return await this.authApiClient.signUp(request);
   }
 
-  async signIn(username: string, password: string): Promise<void> {
-    await this.authApiClient.signIn(username, password);
+  async signIn(request: SignInRequest): Promise<SignInResponse> {
+    return await this.authApiClient.signIn(request);
   }
 }
