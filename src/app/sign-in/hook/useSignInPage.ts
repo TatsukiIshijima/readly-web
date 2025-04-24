@@ -5,6 +5,7 @@ import {
 } from '@/app/sign-in/reducer/SignInPageReducer';
 import React from 'react';
 import { UserRepository } from '@/libs/repository/UserRepository';
+import { SignInRequest } from '@/libs/pb/rpc_sign_in_pb';
 
 export const useSignInPage = (
   userRepository: UserRepository,
@@ -54,28 +55,23 @@ export const useSignInPage = (
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     const isValid = validateInputs(state.email, state.password);
     if (!isValid) {
-      e.preventDefault();
       return;
     }
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email-text-field');
-    const password = formData.get('password-text-field');
-    console.log({
-      email: email,
-      password: password,
-    });
     try {
-      await userRepository.signIn(
-        email?.toString() ?? '',
-        password?.toString() ?? ''
-      );
-    } catch (error: unknown) {
+      const request: SignInRequest = {
+        $typeName: 'pb.SignInRequest',
+        email: state.email,
+        password: state.password,
+      };
+      const response = await userRepository.signIn(request);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
       if (error instanceof Error) {
-        console.error(e);
         dispatch({ type: 'FAILURE_SIGN_IN', error: error.message });
-        e.preventDefault();
       }
     }
   }
