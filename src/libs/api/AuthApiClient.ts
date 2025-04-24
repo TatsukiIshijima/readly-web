@@ -16,18 +16,16 @@ export class AuthApiClientImpl implements AuthApiClient {
   }
 
   async signUp(request: SignUpRequest): Promise<SignUpResponse> {
-    const body = JSON.stringify(request);
-    return await this.apiClient.post<SignUpResponse, string>(
+    return await this.apiClient.post<SignUpResponse, SignUpRequest>(
       '/v1/signup',
-      body
+      request
     );
   }
 
   async signIn(request: SignInRequest): Promise<SignInResponse> {
-    const body = JSON.stringify(request);
-    return await this.apiClient.post<SignInResponse, string>(
+    return await this.apiClient.post<SignInResponse, SignInRequest>(
       '/v1/signin',
-      body
+      request
     );
   }
 }
