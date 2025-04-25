@@ -37,7 +37,7 @@ jobs:
         run: storycap --serverCmd "npx http-server storybook-static -p 6006" http://127.0.0.1:6006 -o __screenshots__/__base__
 
       - name: Upload base screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: base-screenshots
           path: __screenshots__/__base__
