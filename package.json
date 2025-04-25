@@ -59,6 +59,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "playwright": "^1.51.1",
     "prettier": "^3.5.3",
+    "reg-cli": "^0.18.10",
     "storybook": "^8.6.12",
     "storycap": "^5.0.1",
     "typescript": "^5",
