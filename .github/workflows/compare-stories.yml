@@ -48,6 +48,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: base-screenshots
+          # 別ワークフローからダウンロードするため必須
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compare screenshots by reg-cli
         run: |
