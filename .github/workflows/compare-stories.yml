@@ -15,9 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-    permissions:
-      actions: read
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -41,19 +38,23 @@ jobs:
       - name: Capture latest screenshots
         run: npm run capture-actual
 
-      - name: List artifacts
+      - name: Get latest capture all workflow run id
+        id: get_run_id
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api repos/${{ github.repository }}/actions/artifacts | jq
+          RUN_ID=$(gh run list --branch main --workflow capture-all-stories.yml --limit 1 --json databaseId | jq ".[].databaseId")
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Download base screenshots
         uses: actions/download-artifact@v4
         with:
-          # TODO:name指定で動かないので一時的にID指定（要修正）
-          #          run-id: 14660384378
+          # 別ワークフローからアーティファクトを取得するには以下必須
+          # https://github.com/actions/download-artifact
           name: base-screenshots
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ step.get_run_id.outputs.RUN_ID }}
 
       - name: Compare screenshots by reg-cli
         run: |
