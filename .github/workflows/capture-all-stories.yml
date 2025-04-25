@@ -38,11 +38,6 @@ jobs:
       - name: Capture all components
         run: npx storycap --serverCmd "npx http-server storybook-static -p 6006" http://127.0.0.1:6006 -o __screenshots__/__base__
 
-      - name: List artifacts
-        run: |
-          gh api repos/${{ github.repository }}/actions/artifacts \
-            --jq '.[].name'
-
       - name: Upload base screenshots
         uses: actions/upload-artifact@v4
         with:

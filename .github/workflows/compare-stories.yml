@@ -38,6 +38,11 @@ jobs:
       - name: Capture latest screenshots
         run: npx storycap --serverCmd "npx http-server storybook-static -p 6006" http://127.0.0.1:6006 -o __screenshots__/__actual__
 
+      - name: List artifacts
+        run: |
+          gh api repos/${{ github.repository }}/actions/artifacts \
+            --jq '.[].name'
+
       - name: Download base screenshots
         uses: actions/download-artifact@v4
         with:
