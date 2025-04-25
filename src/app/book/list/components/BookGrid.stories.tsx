@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import BookGrid, { dummyBooks } from './BookGrid';
+import BookGrid from './BookGrid';
+import { dummyBooks } from '../../../../libs/testdata/dummy';
 
 const meta = {
   component: BookGrid,
