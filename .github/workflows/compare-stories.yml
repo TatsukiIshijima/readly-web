@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
+    permissions:
+      actions: read
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -48,7 +51,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           # TODO:name指定で動かないので一時的にID指定（要修正）
-          run-id: 14660384378
+          #          run-id: 14660384378
+          name: base-screenshots
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compare screenshots by reg-cli
