@@ -54,7 +54,7 @@ jobs:
           name: base-screenshots
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          run-id: ${{ step.get_run_id.outputs.RUN_ID }}
+          run-id: ${{ steps.get_run_id.outputs.RUN_ID }}
 
       - name: Compare screenshots by reg-cli
         run: |
