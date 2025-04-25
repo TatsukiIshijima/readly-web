@@ -12,6 +12,7 @@
     "test:ci": "jest --ci",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "storycap": "storycap --serverCmd 'npx http-server storybook-static -p 6006' http://localhost:6006 -o __screenshots__/__base__",
     "protobuf-build": "buf build",
     "protobuf-lint": "buf lint",
     "protobuf-gen": "buf generate"
@@ -58,7 +59,9 @@
     "jest-environment-jsdom": "^29.7.0",
     "playwright": "^1.51.1",
     "prettier": "^3.5.3",
+    "reg-cli": "^0.18.10",
     "storybook": "^8.6.12",
+    "storycap": "^5.0.1",
     "typescript": "^5",
     "vitest": "^3.1.1"
   },

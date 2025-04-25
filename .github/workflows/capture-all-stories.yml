@@ -1,0 +1,44 @@
+name: Run capture all storybook components by storycap
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  capture-all:
+    name: Capture all components
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build storybook
+        run: storybook build
+
+      - name: Capture all components
+        run: storycap --serverCmd "npx http-server storybook-static -p 6006" http://127.0.0.1:6006 -o __screenshots__/__base__
+
+      - name: Upload base screenshots
+        uses: actions/upload-artifact@v3
+        with:
+          name: base-screenshots
+          path: __screenshots__/__base__
+          retention-days: 5
