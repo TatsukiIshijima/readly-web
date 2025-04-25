@@ -28,10 +28,10 @@ jobs:
         run: npm install
 
       - name: Build storybook
-        run: storybook build
+        run: npm run storybook build
 
       - name: Capture latest screenshots
-        run: storycap --serverCmd "npx http-server storybook-static -p 6006" http://127.0.0.1:6006 -o __screenshots__/__actual__
+        run: npm run storycap --serverCmd "npx http-server storybook-static -p 6006" http://127.0.0.1:6006 -o __screenshots__/__actual__
 
       - name: Download base screenshots
         uses: actions/download-artifact@v4
@@ -41,7 +41,7 @@ jobs:
 
       - name: Compare screenshots by reg-cli
         run: |
-          reg-cli __screenshots__/__actual__ __screenshots__/__base__ __screenshots__/__diff__
+          npm run reg-cli __screenshots__/__actual__ __screenshots__/__base__ __screenshots__/__diff__
 
       - name: Upload diff screenshots
         uses: actions/upload-artifact@v4
