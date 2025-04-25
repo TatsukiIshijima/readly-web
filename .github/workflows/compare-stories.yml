@@ -47,12 +47,13 @@ jobs:
       - name: Download base screenshots
         uses: actions/download-artifact@v4
         with:
+          # TODO:name指定で動かないので一時的にID指定（要修正）
           run-id: 14660384378
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compare screenshots by reg-cli
         run: |
-          npm run reg-cli __screenshots__/__actual__ __screenshots__/__base__ __screenshots__/__diff__
+          reg-cli __screenshots__/__actual__ __screenshots__/__base__ __screenshots__/__diff__
 
       - name: Upload diff screenshots
         uses: actions/upload-artifact@v4
