@@ -42,8 +42,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api repos/${{ github.repository }}/actions/artifacts \
-            --jq '.[].name'
+          gh api repos/${{ github.repository }}/actions/artifacts | jq
 
       - name: Download base screenshots
         uses: actions/download-artifact@v4
