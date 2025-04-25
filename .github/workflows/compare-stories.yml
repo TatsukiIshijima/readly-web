@@ -36,7 +36,7 @@ jobs:
         run: npm run build-storybook
 
       - name: Capture latest screenshots
-        run: npx storycap --serverCmd "npx http-server storybook-static -p 6006" http://127.0.0.1:6006 -o __screenshots__/__actual__
+        run: npm run capture-actual
 
       - name: List artifacts
         env:
@@ -53,7 +53,7 @@ jobs:
 
       - name: Compare screenshots by reg-cli
         run: |
-          reg-cli __screenshots__/__actual__ __screenshots__/__base__ __screenshots__/__diff__
+          npm run diff-screenshot
 
       - name: Upload diff screenshots
         uses: actions/upload-artifact@v4
