@@ -1,4 +1,4 @@
-name: Compare main branch with latest commit storybook component
+name: Compare screenshots
 
 on:
   pull_request:

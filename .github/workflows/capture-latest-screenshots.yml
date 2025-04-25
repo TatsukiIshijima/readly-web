@@ -1,4 +1,4 @@
-name: Run capture all storybook components by storycap
+name: Run capture latest screenshots
 
 on:
   push:
