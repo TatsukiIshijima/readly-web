@@ -1,7 +1,6 @@
 name: Run capture all storybook components by storycap
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "main" ]
 
