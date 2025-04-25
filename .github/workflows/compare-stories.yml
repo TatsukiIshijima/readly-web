@@ -58,11 +58,12 @@ jobs:
           path: __screenshots__/__base__
 
       - name: Compare screenshots by reg-cli
-        # TODO:要修正。ここがactualのみ実態があってbaseがないのでappendになっている
         run: |
           npm run diff-screenshot
 
       - name: Upload diff screenshots
+        # 差分検出されると前のstepが失敗するが差分をアップロードして欲しいのでalways指定
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: diff-screenshots
