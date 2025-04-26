@@ -44,7 +44,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           RUN_ID=$(gh run list --branch main --workflow capture-all-stories.yml --limit 1 --json databaseId | jq ".[].databaseId")
-          echo "RUN_ID=$RUN_ID" >> $GITHUB_OUTPUT
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Download base screenshots
         uses: actions/download-artifact@v4
@@ -54,7 +54,7 @@ jobs:
           name: base-screenshots
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          run-id: ${{ steps.get_run_id.outputs.RUN_ID }}
+          run-id: ${{ steps.get_run_id.outputs.run_id }}
           path: __screenshots__/__base__
 
       - name: Compare screenshots by reg-cli
@@ -69,4 +69,47 @@ jobs:
           name: diff-screenshots
           path: __screenshots__/__diff__
           retention-days: 5
+
+      - name: build screenshot diff comment
+        id: build_comment
+        run: |
+          COMMENT_BODY="| component | before | after | diff |\n|:-:|:-:|:-:|:-:|\n"
+          
+          # 差分のある画像ファイルの一覧を取得
+          DIFF_FILES=$(find __screenshots__/__diff__ -name "*.png")
+          if [ -z "$DIFF_FILES" ]; then
+            echo "No diff files found."
+            exit 0
+          fi
+          
+          for FILE in $DIFF_FILES; do
+            # __screenshots__/__diff__以下のパスを取得
+            REL_PATH=$(echo "$FILE" | sed 's/^__screenshots__\///' | sed 's/^__diff__\///')
+            if [ -n "$REL_PATH" ]; then
+              BASE_IMG="<img src=__screenshots__/__base__/${REL_PATH} width=200/>"
+              ACTUAL_IMG="<img src=__screenshots__/__actual__/${REL_PATH} width=200/>"
+              DIFF_IMG="<img src=__screenshots__/__diff__/${REL_PATH} width=200/>"
+              COMMENT_BODY+="| ${REL_PATH} | ${BASE_IMG} | ${ACTUAL_IMG} | ${DIFF_IMG} |\n"
+            fi
+          done
+          
+          echo "$COMMENT_BODY"
+          echo "comment=$COMMENT_BODY" >> $GITHUB_OUTPUT
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Build output
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        if: steps.build_comment.outputs.comment != ''
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.build_comment.outputs.comment }}
+          edit-mode: replace
 
