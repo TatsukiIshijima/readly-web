@@ -7,6 +7,22 @@ import { AuthTokenAccessorProvider } from '@/components/providers/AuthTokenAcces
 import { ApiClientProvider } from '@/components/providers/ApiClientProvider';
 import { UserRepositoryProvider } from '@/components/providers/UserRepositoryProvider';
 
+export function Root({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+      <ThemeProvider theme={theme}>
+        <AuthTokenAccessorProvider>
+          <ApiClientProvider>
+            <AuthApiClientProvider>
+              <UserRepositoryProvider>{children}</UserRepositoryProvider>
+            </AuthApiClientProvider>
+          </ApiClientProvider>
+        </AuthTokenAccessorProvider>
+      </ThemeProvider>
+    </AppRouterCacheProvider>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -15,17 +31,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider theme={theme}>
-            <AuthTokenAccessorProvider>
-              <ApiClientProvider>
-                <AuthApiClientProvider>
-                  <UserRepositoryProvider>{children}</UserRepositoryProvider>
-                </AuthApiClientProvider>
-              </ApiClientProvider>
-            </AuthTokenAccessorProvider>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <Root>{children}</Root>
       </body>
     </html>
   );
