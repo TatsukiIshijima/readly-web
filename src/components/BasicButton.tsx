@@ -16,7 +16,7 @@ export default function BasicButton({
   onClick,
   id = 'basic-button',
   name = 'basic-button',
-  label = 'Button',
+  label = 'Hoge',
   type = 'button',
   disabled = false,
   fullWidth = true,
