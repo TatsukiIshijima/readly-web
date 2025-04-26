@@ -5,7 +5,7 @@ import React from 'react';
 import { Root } from '@/app/layout';
 
 const options: ScreenshotOptions = {
-  delay: 100,
+  delay: 1000,
   fullPage: false,
   viewports: {
     desktop: { width: 1920, height: 1080 },
