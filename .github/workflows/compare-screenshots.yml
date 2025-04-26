@@ -72,6 +72,7 @@ jobs:
 
       - name: build screenshot diff comment
         id: build_comment
+        if: always()
         run: |
           COMMENT_BODY="| component | before | after | diff |\n|:-:|:-:|:-:|:-:|\n"
           
@@ -99,6 +100,7 @@ jobs:
       - name: Find Comment
         uses: peter-evans/find-comment@v3
         id: fc
+        if: steps.build_comment.outputs.comment != ''
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
