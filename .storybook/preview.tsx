@@ -1,6 +1,8 @@
 import type { Preview } from '@storybook/react';
 import { ScreenshotOptions, withScreenshot } from 'storycap';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
+import React from 'react';
+import { Root } from '@/app/layout';
 
 const options: ScreenshotOptions = {
   delay: 100,
@@ -10,9 +12,16 @@ const options: ScreenshotOptions = {
   },
 };
 
-export const decorators = [withScreenshot(options)];
+const withRoot = (Story: React.ComponentType) => (
+  <Root>
+    <Story />
+  </Root>
+);
+
+export const decorators = [withRoot, withScreenshot(options)];
 
 const preview: Preview = {
+  decorators: decorators,
   parameters: {
     // デフォルトだpadding=16pxがつくのでfullscreenに設定
     layout: 'fullscreen',
