@@ -1,7 +1,6 @@
-name: Run capture all storybook components by storycap
+name: Run capture latest screenshots
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "main" ]
 
@@ -37,7 +36,7 @@ jobs:
         run: npm run build-storybook
 
       - name: Capture all components
-        run: npm run storycap --serverCmd "npx http-server storybook-static -p 6006" http://127.0.0.1:6006 -o __screenshots__/__base__
+        run: npm run capture-base
 
       - name: Upload base screenshots
         uses: actions/upload-artifact@v4

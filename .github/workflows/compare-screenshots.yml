@@ -1,0 +1,121 @@
+name: Compare screenshots
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compare:
+    name: Compare main branch with latest commit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+#    permissions:
+#      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Clear npm cache
+        run: npm cache clean --force
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build storybook
+        run: npm run build-storybook
+
+      - name: Capture latest screenshots
+        run: npm run capture-actual
+
+      - name: Get latest capture all workflow run id
+        id: get_run_id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RUN_ID=$(gh run list --branch main --workflow capture-latest-screenshots.yml --limit 1 --json databaseId | jq ".[].databaseId")
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+
+      - name: Download base screenshots
+        uses: actions/download-artifact@v4
+        with:
+          # https://github.com/actions/download-artifact
+          # 別ワークフローからアーティファクトを取得するにはname, github-token: , repository, run-idは必須
+          name: base-screenshots
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.get_run_id.outputs.run_id }}
+          path: __screenshots__/__base__
+
+      - name: Compare screenshots by reg-cli
+        run: |
+          npm run diff-screenshot
+
+      - name: Upload diff screenshots
+        # 差分検出されると前のstepが失敗するが差分をアップロードして欲しいのでalways指定
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-screenshots
+          path: __screenshots__/__diff__
+          retention-days: 5
+
+# マークダウンで画像URL付きのテーブルをPRコメントしたがうまく反映されないのでコメントアウト
+#      - name: build screenshot diff comment
+#        id: build_comment
+#        if: always()
+#        run: |
+#          COMMENT_BODY="screenshot diff\n\n| component | before | after | diff |\n|:-:|:-:|:-:|:-:|\n"
+#
+#          # 差分のある画像ファイルの一覧を取得
+#          DIFF_FILES=$(find __screenshots__/__diff__ -name "*.png")
+#          if [ -z "$DIFF_FILES" ]; then
+#            echo "No diff files found."
+#            exit 0
+#          fi
+#
+#          for FILE in $DIFF_FILES; do
+#            # __screenshots__/__diff__以下のパスを取得
+#            REL_PATH=$(echo "$FILE" | sed 's/^__screenshots__\///' | sed 's/^__diff__\///')
+#            if [ -n "$REL_PATH" ]; then
+#              BASE_IMG="<img src=__screenshots__/__base__/${REL_PATH} width=200/>"
+#              ACTUAL_IMG="<img src=__screenshots__/__actual__/${REL_PATH} width=200/>"
+#              DIFF_IMG="<img src=__screenshots__/__diff__/${REL_PATH} width=200/>"
+#              COMMENT_BODY+="| ${REL_PATH} | ${BASE_IMG} | ${ACTUAL_IMG} | ${DIFF_IMG} |\n"
+#            fi
+#          done
+#
+#          echo "$COMMENT_BODY"
+#          echo "comment=$COMMENT_BODY" >> $GITHUB_OUTPUT
+#
+#      - name: Find Comment
+#        uses: peter-evans/find-comment@v3
+#        id: fc
+#        if: always()
+#        with:
+#          issue-number: ${{ github.event.pull_request.number }}
+#          comment-author: 'github-actions[bot]'
+#          body-includes: screenshot diff
+#
+#      - name: Create or update comment
+#        uses: peter-evans/create-or-update-comment@v4
+#        if: always()
+#        with:
+#          comment-id: ${{ steps.fc.outputs.comment-id }}
+#          issue-number: ${{ github.event.pull_request.number }}
+#          body: ${{ steps.build_comment.outputs.comment }}
+#          edit-mode: replace
+
