@@ -46,8 +46,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # TODO: 指定ymlファイル名修正
-          RUN_ID=$(gh run list --branch main --workflow capture-all-stories.yml --limit 1 --json databaseId | jq ".[].databaseId")
+          RUN_ID=$(gh run list --branch main --workflow capture-latest-screenshots.yml --limit 1 --json databaseId | jq ".[].databaseId")
           echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Download base screenshots
