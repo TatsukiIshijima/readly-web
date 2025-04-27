@@ -1,11 +1,11 @@
-import {
-  initialSignInPageState,
-  signInPageReducer,
-  SignInPageState,
-} from '@/app/sign-in/reducer/SignInPageReducer';
+import { signInPageReducer } from '@/app/sign-in/reducer/SignInPageReducer';
 import React from 'react';
 import { UserRepository } from '@/libs/repository/UserRepository';
 import { SignInRequest } from '@/libs/pb/rpc_sign_in_pb';
+import {
+  initialSignInPageState,
+  SignInPageState,
+} from '@/app/sign-in/state/SignInPageState';
 
 export const useSignInPage = (
   userRepository: UserRepository,
