@@ -1,10 +1,9 @@
 import { signInPageReducer } from '@/app/sign-in/reducer/SignInPageReducer';
-import { UserRepository } from '@/libs/repository/UserRepository';
 import {
   initialSignInPageState,
   SignInPageState,
 } from '@/app/sign-in/state/SignInPageState';
-import { SignInPageAction } from '@/app/sign-in/action/SignInPageActionType';
+import { SignInPageAction } from '@/app/sign-in/action/SignInPageAction';
 import React from 'react';
 import { useUserRepository } from '@/components/providers/UserRepositoryProvider';
 

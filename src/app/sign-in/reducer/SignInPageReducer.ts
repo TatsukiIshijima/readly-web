@@ -1,4 +1,4 @@
-import { SignInPageActionType } from '@/app/sign-in/action/SignInPageActionType';
+import { SignInPageActionType } from '@/app/sign-in/action/SignInPageAction';
 import { SignInPageState } from '@/app/sign-in/state/SignInPageState';
 
 export function signInPageReducer(
