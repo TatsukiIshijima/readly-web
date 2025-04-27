@@ -7,11 +7,9 @@ import BasicButton from '@/components/BasicButton';
 import AuthContainer from '@/components/AuthContainer';
 import React from 'react';
 import { useSignInPage } from '@/app/sign-in/hook/useSignInPage';
-import { useUserRepository } from '@/components/providers/UserRepositoryProvider';
 
 export default function SignIn() {
-  const userRepository = useUserRepository();
-  const signInPage = useSignInPage(userRepository);
+  const signInPage = useSignInPage();
 
   return (
     <AuthContainer>

@@ -1,11 +1,11 @@
-import { SignInPageAction } from '@/app/sign-in/action/SignInPageAction';
+import { SignInPageActionType } from '@/app/sign-in/action/SignInPageActionType';
 import { SignInPageState } from '@/app/sign-in/state/SignInPageState';
 
 export function signInPageReducer(
   state: SignInPageState,
-  action: SignInPageAction
+  action: SignInPageActionType
 ): SignInPageState {
-  switch (action.type) {
+  switch (action.key) {
     case 'INPUT_EMAIL':
       return { ...state, email: action.value };
     case 'INPUT_PASSWORD':
