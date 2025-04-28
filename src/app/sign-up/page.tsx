@@ -5,8 +5,6 @@ import React from 'react';
 import BasicTextField from '@/components/BasicTextField';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
-import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
-import { SIGN_UP_ATTRIBUTES } from '@/attributes/signUpAttributes';
 import AuthContainer from '@/components/AuthContainer';
 import { useTextField } from '@/hooks/useTextField';
 
@@ -31,9 +29,9 @@ export default function SignUp() {
 
     const formData = new FormData(e.currentTarget);
     console.log({
-      userName: formData.get(COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_NAME),
-      email: formData.get(COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME),
-      password: formData.get(COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME),
+      userName: formData.get('username-text-field'),
+      email: formData.get('email-text-field'),
+      password: formData.get('password-text-field'),
     });
   };
 
@@ -85,41 +83,33 @@ export default function SignUp() {
         <BasicTextField
           value={userNameTextField.value}
           onChange={userNameTextField.onChange}
-          id={COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_LABEL}
+          id={'username-text-field'}
+          label={'User Name'}
           type={'text'}
           error={userNameError}
-          errorMessage={
-            userNameError
-              ? COMMON_ATTRIBUTES.USERNAME_VALIDATE_ERROR_MESSAGE
-              : ''
-          }
+          errorMessage={userNameError ? '5~30文字 記号は不可' : ''}
           autoComplete={'text'}
           autoFocus={true}
         />
         <BasicTextField
           value={emailTextField.value}
           onChange={emailTextField.onChange}
-          id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
+          id={'email-text-field'}
+          label={'Email'}
           type={'email'}
           error={emailError}
-          errorMessage={
-            emailError ? COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE : ''
-          }
+          errorMessage={emailError ? '無効なメールアドレスの形式' : ''}
           autoComplete={'email'}
           autoFocus={false}
         />
         <PasswordTextField
           password={passwordTextField.value}
           onChange={passwordTextField.onChange}
-          id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
+          id={'password-text-field'}
+          label={'Password'}
           error={passwordError}
           errorMessage={
-            passwordError
-              ? COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE
-              : ''
+            passwordError ? '大小英数記号をそれぞれ1文字以上含む8~48文字' : ''
           }
           autoComplete={'password'}
           autoFocus={false}
@@ -128,9 +118,9 @@ export default function SignUp() {
           onClick={() => {
             // do nothing
           }}
-          id={SIGN_UP_ATTRIBUTES.SIGN_UP_BUTTON_NAME}
-          name={SIGN_UP_ATTRIBUTES.SIGN_UP_BUTTON_NAME}
-          label={SIGN_UP_ATTRIBUTES.SIGN_UP_BUTTON_LABEL}
+          id={'sign-up-button'}
+          name={'sign-up-button'}
+          label={'Sign Up'}
           type={'submit'}
         />
         <Typography sx={{ textAlign: 'center' }}>
