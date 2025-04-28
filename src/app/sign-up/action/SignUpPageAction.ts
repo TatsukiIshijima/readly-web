@@ -1,6 +1,7 @@
 import { UserRepository } from '@/libs/repository/UserRepository';
 import React from 'react';
 import { validatePassword, validateUserName } from '@/libs/util/Validate';
+import { SignUpRequest } from '@/libs/pb/rpc_sign_up_pb';
 
 export type SignUpPageActionType =
   | { key: 'INPUT_USER_NAME'; value: string }
@@ -80,5 +81,32 @@ export class SignUpPageAction {
     }
 
     return isValid;
+  }
+
+  async signUp(userName: string, email: string, password: string) {
+    const isValid = this.validateInputs(userName, email, password);
+    if (!isValid) {
+      return;
+    }
+    this.dispatch({ key: 'REQUEST_SIGN_UP' });
+    try {
+      const request: SignUpRequest = {
+        $typeName: 'pb.SignUpRequest',
+        name: userName,
+        email: email,
+        password: password,
+      };
+      const response = await this.userRepository.signUp(request);
+      console.log(response);
+      this.dispatch({ key: 'SUCCESS_SIGN_UP' });
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        this.dispatch({
+          key: 'FAILURE_SIGN_UP',
+          error: error.message,
+        });
+      }
+    }
   }
 }
