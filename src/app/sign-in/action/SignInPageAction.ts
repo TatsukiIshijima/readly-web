@@ -1,6 +1,7 @@
 import { SignInRequest } from '@/libs/pb/rpc_sign_in_pb';
 import { UserRepository } from '@/libs/repository/UserRepository';
 import React from 'react';
+import { validateEmail, validatePassword } from '@/libs/util/Validate';
 
 export type SignInPageActionType =
   | { key: 'INPUT_EMAIL'; value: string }
@@ -34,32 +35,30 @@ export class SignInPageAction {
   private validateInputs(email: string, password: string) {
     let isValid = true;
 
-    // TODO:バリデーションは共通処理へ移動
-    if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
-      this.dispatch({
-        key: 'VALIDATE_EMAIL',
-        error: 'メールアドレスを入力してください',
-      });
-      isValid = false;
-    } else {
+    if (validateEmail(email)) {
       this.dispatch({
         key: 'VALIDATE_EMAIL',
         error: '',
       });
+    } else {
+      this.dispatch({
+        key: 'VALIDATE_EMAIL',
+        error: '無効なメールアドレスの形式',
+      });
+      isValid = false;
     }
 
-    // TODO:バリデーションは共通処理へ移動
-    if (password === '' || password.length < 6) {
-      this.dispatch({
-        key: 'VALIDATE_PASSWORD',
-        error: 'パスワードは6文字以上で入力してください',
-      });
-      isValid = false;
-    } else {
+    if (validatePassword(password)) {
       this.dispatch({
         key: 'VALIDATE_PASSWORD',
         error: '',
       });
+    } else {
+      this.dispatch({
+        key: 'VALIDATE_PASSWORD',
+        error: '大小英数記号をそれぞれ1文字以上含む8~48文字',
+      });
+      isValid = false;
     }
 
     return isValid;
