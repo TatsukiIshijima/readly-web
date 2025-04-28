@@ -1,7 +1,7 @@
 import { SignUpPageState } from '@/app/sign-up/state/SignUpPageState';
 import { SignUpPageActionType } from '@/app/sign-up/action/SignUpPageAction';
 
-export function SignUpPageReducer(
+export function signUpPageReducer(
   state: SignUpPageState,
   action: SignUpPageActionType
 ): SignUpPageState {

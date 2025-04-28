@@ -1,6 +1,10 @@
 import { UserRepository } from '@/libs/repository/UserRepository';
 import React from 'react';
-import { validatePassword, validateUserName } from '@/libs/util/Validate';
+import {
+  validateEmail,
+  validatePassword,
+  validateUserName,
+} from '@/libs/util/Validate';
 import { SignUpRequest } from '@/libs/pb/rpc_sign_up_pb';
 
 export type SignUpPageActionType =
@@ -54,7 +58,7 @@ export class SignUpPageAction {
       isValid = false;
     }
 
-    if (validateUserName(email)) {
+    if (validateEmail(email)) {
       this.dispatch({
         key: 'VALIDATE_EMAIL',
         error: '',
