@@ -10,7 +10,7 @@ export const [useApiClient, SetApiClientProvider] = createCtx<ApiClient>();
 export function ApiClientProvider({ children }: { children: React.ReactNode }) {
   const authTokenAccessor = useAuthTokenAccessor();
   // TODO: BaseURL変更
-  const apiClient = new ApiClient('https://api.example.com', authTokenAccessor);
+  const apiClient = new ApiClient('http://localhost:8080', authTokenAccessor);
   return (
     <SetApiClientProvider value={apiClient}>{children}</SetApiClientProvider>
   );

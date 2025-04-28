@@ -1,69 +1,61 @@
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { AuthTokenAccessor } from '@/libs/storage/AuthTokenAccessor';
 
 export class ApiClient {
   private readonly baseURL: string;
   private readonly authTokenAccessor: AuthTokenAccessor;
+  private readonly axiosInstance: AxiosInstance;
 
   constructor(baseURL: string, authTokenAccessor: AuthTokenAccessor) {
     this.baseURL = baseURL;
     this.authTokenAccessor = authTokenAccessor;
+    this.axiosInstance = axios.create({
+      baseURL: this.baseURL,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    this.axiosInstance.interceptors.request.use(
+      (config) => {
+        const token = this.authTokenAccessor.getAuthToken();
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    this.axiosInstance.interceptors.response.use(
+      (response: AxiosResponse) => {
+        // FIXME:ここでトークンのレスポンスであればトークン保存させることができれば...
+        return response;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
   }
 
-  private authInterceptor(options: RequestInit = {}): RequestInit {
-    const token = this.authTokenAccessor.getAuthToken();
-    if (token) {
-      options.headers = {
-        ...options.headers,
-        Authorization: `Bearer ${token}`,
-      };
-    }
-    return options;
+  async get<T>(url: string, config: AxiosRequestConfig = {}): Promise<T> {
+    const response = await this.axiosInstance.get<T>(url, config);
+    return response.data;
   }
 
-  private async request(
+  async post<T, U>(
     url: string,
-    options: RequestInit = {}
-  ): Promise<Response> {
-    options = this.authInterceptor(options);
-    const response = await fetch(`${this.baseURL}${url}`, options);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response;
-  }
-
-  async get<T>(url: string, options: RequestInit = {}): Promise<T> {
-    options.method = 'GET';
-    options.headers = {
-      ...options.headers,
-      'Content-Type': 'application/json',
-    };
-    const response = await this.request(url, options);
-    return await response.json();
-  }
-
-  async post<T>(
-    url: string,
-    body: BodyInit,
-    options: RequestInit = {}
+    data: U,
+    config: AxiosRequestConfig = {}
   ): Promise<T> {
-    options.method = 'POST';
-    options.headers = {
-      ...options.headers,
-      'Content-Type': 'application/json',
-    };
-    options.body = body;
-    const response = await this.request(url, options);
-    return await response.json();
+    const response = await this.axiosInstance.post<T>(url, data, config);
+    return response.data;
   }
 
-  async delete<T>(url: string, options: RequestInit = {}): Promise<T> {
-    options.method = 'DELETE';
-    options.headers = {
-      ...options.headers,
-      'Content-Type': 'application/json',
-    };
-    const response = await this.request(url, options);
-    return await response.json();
+  async delete<T>(url: string, config: AxiosRequestConfig = {}): Promise<T> {
+    const response = await this.axiosInstance.delete<T>(url, config);
+    return response.data;
   }
 }

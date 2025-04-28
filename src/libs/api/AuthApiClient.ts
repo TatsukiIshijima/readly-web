@@ -1,9 +1,11 @@
 import { ApiClient } from '@/libs/api/ApiClient';
+import { SignInRequest, SignInResponse } from '@/libs/pb/rpc_sign_in_pb';
+import { SignUpRequest, SignUpResponse } from '@/libs/pb/rpc_sign_up_pb';
 
 export interface AuthApiClient {
-  signUp(username: string, email: string, password: string): Promise<void>;
+  signUp(request: SignUpRequest): Promise<SignUpResponse>;
 
-  signIn(username: string, password: string): Promise<void>;
+  signIn(request: SignInRequest): Promise<SignInResponse>;
 }
 
 export class AuthApiClientImpl implements AuthApiClient {
@@ -13,17 +15,17 @@ export class AuthApiClientImpl implements AuthApiClient {
     this.apiClient = apiClient;
   }
 
-  async signUp(
-    username: string,
-    email: string,
-    password: string
-  ): Promise<void> {
-    const body = JSON.stringify({ username, password });
-    await this.apiClient.post('/sign-up', body);
+  async signUp(request: SignUpRequest): Promise<SignUpResponse> {
+    return await this.apiClient.post<SignUpResponse, SignUpRequest>(
+      '/v1/signup',
+      request
+    );
   }
 
-  async signIn(username: string, password: string): Promise<void> {
-    const body = JSON.stringify({ username, password });
-    await this.apiClient.post('/sign-in', body);
+  async signIn(request: SignInRequest): Promise<SignInResponse> {
+    return await this.apiClient.post<SignInResponse, SignInRequest>(
+      '/v1/signin',
+      request
+    );
   }
 }

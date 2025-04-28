@@ -4,63 +4,12 @@ import BasicTextField from '@/components/BasicTextField';
 import { Box, Stack, Typography, Link } from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
-import { SIGN_IN_ATTRIBUTES } from '@/attributes/signInAttributes';
-import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
 import AuthContainer from '@/components/AuthContainer';
-import { useTextField } from '@/hooks/useTextField';
 import React from 'react';
-import { useUserRepository } from '@/components/providers/UserRepositoryProvider';
+import { useSignInPage } from '@/app/sign-in/hook/useSignInPage';
 
 export default function SignIn() {
-  const emailTextFiled = useTextField('');
-  const passwordTextField = useTextField('');
-  const [emailError, setEmailError] = React.useState(false);
-  const [passwordError, setPasswordError] = React.useState(false);
-  const userRepository = useUserRepository();
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const isValid = validateInputs(
-      emailTextFiled.value,
-      passwordTextField.value.toString()
-    );
-    if (!isValid) {
-      e.preventDefault();
-      return;
-    }
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get(COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME);
-    const password = formData.get(COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME);
-    console.log({
-      email: email,
-      password: password,
-    });
-    // 試し
-    await userRepository.signIn(
-      email?.toString() ?? '',
-      password?.toString() ?? ''
-    );
-  };
-
-  // TODO:ロジック側に移動
-  const validateInputs = (email: string, password: string) => {
-    let isValid = true;
-
-    if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
-      setEmailError(true);
-      isValid = false;
-    } else {
-      setEmailError(false);
-    }
-
-    if (password === '' || password.length < 6) {
-      setPasswordError(true);
-      isValid = false;
-    } else {
-      setPasswordError(false);
-    }
-
-    return isValid;
-  };
+  const signInPage = useSignInPage();
 
   return (
     <AuthContainer>
@@ -71,45 +20,39 @@ export default function SignIn() {
       </Box>
       <Stack
         component={'form'}
-        onSubmit={handleSubmit}
+        onSubmit={signInPage.onSubmit}
         method={'POST'}
         spacing={4}
       >
         <BasicTextField
-          value={emailTextFiled.value}
-          onChange={emailTextFiled.onChange}
-          id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
+          value={signInPage.state.email}
+          onChange={signInPage.onChangeEmail}
+          id={'email-text-field'}
+          label={'Email'}
           type={'email'}
-          name={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-          error={emailError}
-          errorMessage={
-            emailError ? COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE : ''
-          }
+          name={'email-text-field'}
+          error={signInPage.state.emailValidateErrorMessage !== ''}
+          errorMessage={signInPage.state.emailValidateErrorMessage}
           autoComplete={'email'}
           autoFocus={true}
         />
         <PasswordTextField
-          password={passwordTextField.value}
-          onChange={passwordTextField.onChange}
-          id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-          name={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
-          error={passwordError}
-          errorMessage={
-            passwordError
-              ? COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE
-              : ''
-          }
+          password={signInPage.state.password}
+          onChange={signInPage.onChangePassword}
+          id={'password-text-field'}
+          name={'password-text-field'}
+          label={'Password'}
+          error={signInPage.state.passwordValidateErrorMessage !== ''}
+          errorMessage={signInPage.state.passwordValidateErrorMessage}
           autoFocus={false}
         />
         <BasicButton
           onClick={() => {
             // do nothing
           }}
-          id={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-          name={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_NAME}
-          label={SIGN_IN_ATTRIBUTES.SIGN_IN_BUTTON_LABEL}
+          id={'sign-in-button'}
+          name={'sign-in-button'}
+          label={'Sign In'}
           type={'submit'}
         />
         <Typography sx={{ textAlign: 'center' }}>
