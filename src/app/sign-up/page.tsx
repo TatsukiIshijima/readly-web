@@ -5,69 +5,11 @@ import React from 'react';
 import BasicTextField from '@/components/BasicTextField';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
-import { COMMON_ATTRIBUTES } from '@/attributes/commonAttributes';
-import { SIGN_UP_ATTRIBUTES } from '@/attributes/signUpAttributes';
 import AuthContainer from '@/components/AuthContainer';
-import { useTextField } from '@/hooks/useTextField';
+import { useSignUpPage } from '@/app/sign-up/hook/useSignUpPage';
 
 export default function SignUp() {
-  const userNameTextField = useTextField('');
-  const emailTextField = useTextField('');
-  const passwordTextField = useTextField('');
-  const [userNameError, setUserNameError] = React.useState(false);
-  const [emailError, setEmailError] = React.useState(false);
-  const [passwordError, setPasswordError] = React.useState(false);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const isValid = validateInputs(
-      userNameTextField.value,
-      emailTextField.value,
-      passwordTextField.value
-    );
-    if (!isValid) {
-      e.preventDefault();
-      return;
-    }
-
-    const formData = new FormData(e.currentTarget);
-    console.log({
-      userName: formData.get(COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_NAME),
-      email: formData.get(COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME),
-      password: formData.get(COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME),
-    });
-  };
-
-  // TODO:ロジック側に移動
-  const validateInputs = (
-    userName: string,
-    email: string,
-    password: string
-  ) => {
-    let isValid = true;
-
-    if (userName === '') {
-      setUserNameError(true);
-      isValid = false;
-    } else {
-      setUserNameError(false);
-    }
-
-    if (email === '' || !/\S+@\S+\.\S+/.test(email)) {
-      setEmailError(true);
-      isValid = false;
-    } else {
-      setEmailError(false);
-    }
-
-    if (password === '' || password.length < 6) {
-      setPasswordError(true);
-      isValid = false;
-    } else {
-      setPasswordError(false);
-    }
-
-    return isValid;
-  };
+  const signUpPage = useSignUpPage();
 
   return (
     <AuthContainer>
@@ -78,49 +20,39 @@ export default function SignUp() {
       </Box>
       <Stack
         component={'form'}
-        onSubmit={handleSubmit}
+        onSubmit={signUpPage.onSubmit}
         method={'POST'}
         spacing={4}
       >
         <BasicTextField
-          value={userNameTextField.value}
-          onChange={userNameTextField.onChange}
-          id={COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.USERNAME_TEXT_FIELD_LABEL}
+          value={signUpPage.state.userName}
+          onChange={signUpPage.onChangeUserName}
+          id={'username-text-field'}
+          label={'User Name'}
           type={'text'}
-          error={userNameError}
-          errorMessage={
-            userNameError
-              ? COMMON_ATTRIBUTES.USERNAME_VALIDATE_ERROR_MESSAGE
-              : ''
-          }
+          error={signUpPage.state.userNameValidateErrorMessage !== ''}
+          errorMessage={signUpPage.state.userNameValidateErrorMessage}
           autoComplete={'text'}
           autoFocus={true}
         />
         <BasicTextField
-          value={emailTextField.value}
-          onChange={emailTextField.onChange}
-          id={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.EMAIL_TEXT_FIELD_LABEL}
+          value={signUpPage.state.email}
+          onChange={signUpPage.onChangeEmail}
+          id={'email-text-field'}
+          label={'Email'}
           type={'email'}
-          error={emailError}
-          errorMessage={
-            emailError ? COMMON_ATTRIBUTES.EMAIL_VALIDATE_ERROR_MESSAGE : ''
-          }
+          error={signUpPage.state.emailValidateErrorMessage !== ''}
+          errorMessage={signUpPage.state.emailValidateErrorMessage}
           autoComplete={'email'}
           autoFocus={false}
         />
         <PasswordTextField
-          password={passwordTextField.value}
-          onChange={passwordTextField.onChange}
-          id={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_NAME}
-          label={COMMON_ATTRIBUTES.PASSWORD_TEXT_FIELD_LABEL}
-          error={passwordError}
-          errorMessage={
-            passwordError
-              ? COMMON_ATTRIBUTES.PASSWORD_VALIDATE_ERROR_MESSAGE
-              : ''
-          }
+          password={signUpPage.state.password}
+          onChange={signUpPage.onChangePassword}
+          id={'password-text-field'}
+          label={'Password'}
+          error={signUpPage.state.passwordValidateErrorMessage !== ''}
+          errorMessage={signUpPage.state.passwordValidateErrorMessage}
           autoComplete={'password'}
           autoFocus={false}
         />
@@ -128,9 +60,9 @@ export default function SignUp() {
           onClick={() => {
             // do nothing
           }}
-          id={SIGN_UP_ATTRIBUTES.SIGN_UP_BUTTON_NAME}
-          name={SIGN_UP_ATTRIBUTES.SIGN_UP_BUTTON_NAME}
-          label={SIGN_UP_ATTRIBUTES.SIGN_UP_BUTTON_LABEL}
+          id={'sign-up-button'}
+          name={'sign-up-button'}
+          label={'Sign Up'}
           type={'submit'}
         />
         <Typography sx={{ textAlign: 'center' }}>
