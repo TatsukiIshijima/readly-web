@@ -1,12 +1,12 @@
 'use client';
 
-import { Stack } from '@mui/material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import BasicTextField from '@/components/BasicTextField';
 import BasicButton from '@/components/BasicButton';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useTextField } from '@/hooks/useTextField';
 import { useDatePicker } from '@/hooks/useDatePicker';
 import { useMultiSelect, useSingleSelect } from '@/hooks/useSelect';
@@ -15,6 +15,8 @@ import { ReadingStatus, ReadingStatusList } from '@/types/ReadingStatus';
 import MultiSelect from '@/components/MultiSelect';
 import { dummyGenres } from '@/libs/testdata/dummy';
 import FormContainer from '@/components/FormContainer';
+import { Photo } from '@mui/icons-material';
+import Image from 'next/image';
 
 export default function BookRegister() {
   const titleText = useTextField('');
@@ -28,10 +30,78 @@ export default function BookRegister() {
   const statusSelect = useSingleSelect<ReadingStatus>('unread');
   const genresSelect = useMultiSelect<string>();
 
+  // const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handleOnImageChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+    // setSelectedFile(file);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setPreviewUrl(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  function handleOnClickImage(event: React.MouseEvent) {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  }
+
   return (
     <FormContainer>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Stack component={'form'} method={'POST'} spacing={4}>
+          <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+            <Box
+              display={'flex'}
+              flexDirection={'column'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              width={210}
+              height={297}
+              border={1}
+              borderColor={'divider'}
+              onClick={handleOnClickImage}
+            >
+              <input
+                type={'file'}
+                accept={'image/*'}
+                style={{ display: 'none' }}
+                onChange={handleOnImageChange}
+                ref={fileInputRef}
+              />
+              {previewUrl ? (
+                <Image
+                  width={210}
+                  height={297}
+                  src={previewUrl}
+                  alt={'preview'}
+                />
+              ) : (
+                <Box
+                  display={'flex'}
+                  flexDirection={'column'}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                >
+                  <IconButton aria-label={'upload picture'} disabled={true}>
+                    <Photo />
+                  </IconButton>
+                  <Typography variant={'body1'} color={'textSecondary'}>
+                    Upload book image
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+          </Box>
           <BasicTextField
             value={titleText.value}
             onChange={titleText.onChange}
@@ -40,6 +110,7 @@ export default function BookRegister() {
             type={'text'}
             error={false}
             errorMessage={''}
+            autoFocus={false}
           />
           <BasicTextField
             value={authorText.value}
@@ -47,6 +118,7 @@ export default function BookRegister() {
             id={'author'}
             label={'Author'}
             type={'text'}
+            autoFocus={false}
           />
           <BasicTextField
             value={publisherText.value}
@@ -54,6 +126,7 @@ export default function BookRegister() {
             id={'publisher'}
             label={'Publisher'}
             type={'text'}
+            autoFocus={false}
           />
           <BasicTextField
             value={isbnText.value}
@@ -61,6 +134,7 @@ export default function BookRegister() {
             id={'isbn'}
             label={'ISBN'}
             type={'text'}
+            autoFocus={false}
           />
           <DatePicker
             label="Publish Date"
@@ -73,6 +147,7 @@ export default function BookRegister() {
             id={'url'}
             label={'URL'}
             type={'url'}
+            autoFocus={false}
           />
           <MultiSelect
             label={'Genre'}
