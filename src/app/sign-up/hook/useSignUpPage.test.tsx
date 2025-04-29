@@ -6,6 +6,11 @@ import { UserRepositoryProvider } from '@/components/providers/UserRepositoryPro
 import { act, renderHook } from '@testing-library/react';
 import { useSignUpPage } from '@/app/sign-up/hook/useSignUpPage';
 import { initialSignUpPageState } from '@/app/sign-up/state/SignUpPageState';
+import { useRouter } from 'next/navigation';
+
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
 
 describe('useSignUpPage', () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -17,6 +22,11 @@ describe('useSignUpPage', () => {
       </ApiClientProvider>
     </AuthTokenAccessorProvider>
   );
+
+  const mockPush = jest.fn();
+  (useRouter as jest.Mock).mockReturnValue({
+    push: mockPush,
+  });
 
   test('should initialize with the initial state', () => {
     const { result } = renderHook(() => useSignUpPage(), { wrapper });
@@ -100,5 +110,7 @@ describe('useSignUpPage', () => {
     expect(result.current.state.password).toBe('1234abcD^');
     expect(result.current.state.isRequesting).toBe(false);
     expect(result.current.state.signUpErrorMessage).toBe('');
+    expect(result.current.state.isSuccessSignUp).toBe(true);
+    expect(mockPush).toHaveBeenCalledWith('/book/list');
   });
 });

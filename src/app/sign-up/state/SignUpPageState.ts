@@ -7,6 +7,7 @@ export type SignUpPageState = {
   passwordValidateErrorMessage: string;
   isRequesting: boolean;
   signUpErrorMessage: string;
+  isSuccessSignUp: boolean;
 };
 
 export const initialSignUpPageState: SignUpPageState = {
@@ -18,4 +19,5 @@ export const initialSignUpPageState: SignUpPageState = {
   passwordValidateErrorMessage: '',
   isRequesting: false,
   signUpErrorMessage: '',
+  isSuccessSignUp: false,
 };

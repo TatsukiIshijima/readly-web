@@ -1,7 +1,16 @@
 'use client';
 
 import BasicTextField from '@/components/BasicTextField';
-import { Box, Stack, Typography, Link } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Typography,
+  Link,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Dialog,
+} from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
 import AuthContainer from '@/components/AuthContainer';
@@ -62,6 +71,21 @@ export default function SignIn() {
           </Link>
         </Typography>
       </Stack>
+      <Dialog open={signInPage.state.signInErrorMessage !== ''}>
+        <DialogTitle id={'sign-in-dialog-title'}>{'Sign In Error'}</DialogTitle>
+        <DialogContent id={'sign-in-dialog-content'}>
+          {signInPage.state.signInErrorMessage}
+        </DialogContent>
+        <DialogActions>
+          <BasicButton
+            onClick={signInPage.onCloseDialog}
+            id={'sign-in-dialog-close-button'}
+            name={'sign-in-dialog-close-button'}
+            label={'Close'}
+            type={'button'}
+          ></BasicButton>
+        </DialogActions>
+      </Dialog>
     </AuthContainer>
   );
 }

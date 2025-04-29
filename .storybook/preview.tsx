@@ -31,6 +31,11 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    // 画面遷移にnext/navigationを使用しており、この設定がないと
+    // invariant expected app router to be mounted のエラーでプレビュー表示されないため設定
+    nextjs: {
+      appDirectory: true,
+    },
     viewport: {
       viewports: MINIMAL_VIEWPORTS,
     },

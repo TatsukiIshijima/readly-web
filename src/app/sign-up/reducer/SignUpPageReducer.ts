@@ -29,12 +29,19 @@ export function signUpPageReducer(
         ...state,
         isRequesting: false,
         signUpErrorMessage: '',
+        isSuccessSignUp: true,
       };
     case 'FAILURE_SIGN_UP':
       return {
         ...state,
         isRequesting: false,
         signUpErrorMessage: action.error,
+        isSuccessSignUp: false,
+      };
+    case 'CLOSE_DIALOG':
+      return {
+        ...state,
+        signUpErrorMessage: '',
       };
     default:
       throw Error('Unknown action: ' + action);

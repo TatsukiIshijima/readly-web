@@ -5,6 +5,7 @@ export type SignInPageState = {
   passwordValidateErrorMessage: string;
   isRequesting: boolean;
   signInErrorMessage: string;
+  isSuccessSignIn: boolean;
 };
 
 export const initialSignInPageState: SignInPageState = {
@@ -14,4 +15,5 @@ export const initialSignInPageState: SignInPageState = {
   passwordValidateErrorMessage: '',
   isRequesting: false,
   signInErrorMessage: '',
+  isSuccessSignIn: false,
 };

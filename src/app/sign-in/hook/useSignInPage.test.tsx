@@ -6,10 +6,13 @@ import { AuthApiClientProvider } from '@/components/providers/AuthApiClientProvi
 import { UserRepositoryProvider } from '@/components/providers/UserRepositoryProvider';
 import { AuthTokenAccessorProvider } from '@/components/providers/AuthTokenAccessorProvider';
 import { ApiClientProvider } from '@/components/providers/ApiClientProvider';
+import { useRouter } from 'next/navigation';
+
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
 
 describe('useSignInPage', () => {
-  beforeEach(() => {});
-
   // FIXME:AuthApiClientProviderにoptionで値を渡してFakeAuthApiClientの振る舞いを変えたい
   const wrapper = ({ children }: { children: React.ReactNode }) => (
     <AuthTokenAccessorProvider>
@@ -20,6 +23,13 @@ describe('useSignInPage', () => {
       </ApiClientProvider>
     </AuthTokenAccessorProvider>
   );
+
+  const mockPush = jest.fn();
+  (useRouter as jest.Mock).mockReturnValue({
+    push: mockPush,
+  });
+
+  beforeEach(() => {});
 
   test('should initialize with the initial state', () => {
     const { result } = renderHook(() => useSignInPage(), { wrapper });
@@ -81,5 +91,7 @@ describe('useSignInPage', () => {
     expect(state.result.current.state.password).toBe('1234abcD^');
     expect(state.result.current.state.isRequesting).toBe(false);
     expect(state.result.current.state.signInErrorMessage).toBe('');
+    expect(state.result.current.state.isSuccessSignIn).toBe(true);
+    expect(mockPush).toHaveBeenCalledWith('/book/list');
   });
 });
