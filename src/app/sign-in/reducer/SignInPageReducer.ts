@@ -25,12 +25,14 @@ export function signInPageReducer(
         ...state,
         isRequesting: false,
         signInErrorMessage: '',
+        isSuccessSignIn: true,
       };
     case 'FAILURE_SIGN_IN':
       return {
         ...state,
         isRequesting: false,
         signInErrorMessage: action.error,
+        isSuccessSignIn: false,
       };
     case 'CLOSE_DIALOG':
       return {
