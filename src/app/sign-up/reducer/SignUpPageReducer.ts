@@ -36,6 +36,11 @@ export function signUpPageReducer(
         isRequesting: false,
         signUpErrorMessage: action.error,
       };
+    case 'CLOSE_DIALOG':
+      return {
+        ...state,
+        signUpErrorMessage: '',
+      };
     default:
       throw Error('Unknown action: ' + action);
   }

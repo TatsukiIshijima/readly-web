@@ -16,7 +16,8 @@ export type SignUpPageActionType =
   | { key: 'VALIDATE_PASSWORD'; error: string }
   | { key: 'REQUEST_SIGN_UP' }
   | { key: 'SUCCESS_SIGN_UP' }
-  | { key: 'FAILURE_SIGN_UP'; error: string };
+  | { key: 'FAILURE_SIGN_UP'; error: string }
+  | { key: 'CLOSE_DIALOG' };
 
 export class SignUpPageAction {
   private readonly dispatch: React.ActionDispatch<[SignUpPageActionType]>;
@@ -112,5 +113,9 @@ export class SignUpPageAction {
         });
       }
     }
+  }
+
+  closeDialog() {
+    this.dispatch({ key: 'CLOSE_DIALOG' });
   }
 }

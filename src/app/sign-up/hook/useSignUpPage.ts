@@ -31,11 +31,16 @@ export const useSignUpPage = (
     await action.signUp(state.userName, state.email, state.password);
   }
 
+  function handleCloseDialog() {
+    action.closeDialog();
+  }
+
   return {
     state: state,
     onChangeUserName: handleUserNameChange,
     onChangeEmail: handleEmailChange,
     onChangePassword: handlePasswordChange,
     onSubmit: handleSubmit,
+    onCloseDialog: handleCloseDialog,
   };
 };

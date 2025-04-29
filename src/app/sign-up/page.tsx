@@ -1,6 +1,15 @@
 'use client';
 
-import { Box, Stack, Typography, Link } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Typography,
+  Link,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from '@mui/material';
 import React from 'react';
 import BasicTextField from '@/components/BasicTextField';
 import PasswordTextField from '@/components/PasswordTextField';
@@ -72,6 +81,21 @@ export default function SignUp() {
           </Link>
         </Typography>
       </Stack>
+      <Dialog open={signUpPage.state.signUpErrorMessage !== ''}>
+        <DialogTitle id={'sign-up-dialog-title'}>{'Sign Up Error'}</DialogTitle>
+        <DialogContent id={'sign-up-dialog-content'}>
+          {signUpPage.state.signUpErrorMessage}
+        </DialogContent>
+        <DialogActions>
+          <BasicButton
+            onClick={signUpPage.onCloseDialog}
+            id={'sign-up-dialog-close-button'}
+            name={'sign-up-dialog-close-button'}
+            label={'Close'}
+            type={'button'}
+          ></BasicButton>
+        </DialogActions>
+      </Dialog>
     </AuthContainer>
   );
 }
