@@ -47,6 +47,7 @@ export default function BookRegister() {
             id={'author'}
             label={'Author'}
             type={'text'}
+            autoFocus={false}
           />
           <BasicTextField
             value={publisherText.value}
@@ -54,6 +55,7 @@ export default function BookRegister() {
             id={'publisher'}
             label={'Publisher'}
             type={'text'}
+            autoFocus={false}
           />
           <BasicTextField
             value={isbnText.value}
@@ -61,6 +63,7 @@ export default function BookRegister() {
             id={'isbn'}
             label={'ISBN'}
             type={'text'}
+            autoFocus={false}
           />
           <DatePicker
             label="Publish Date"
@@ -73,6 +76,7 @@ export default function BookRegister() {
             id={'url'}
             label={'URL'}
             type={'url'}
+            autoFocus={false}
           />
           <MultiSelect
             label={'Genre'}
