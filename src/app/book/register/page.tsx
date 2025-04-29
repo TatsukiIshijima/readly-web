@@ -30,6 +30,7 @@ export default function BookRegister() {
   const statusSelect = useSingleSelect<ReadingStatus>('unread');
   const genresSelect = useMultiSelect<string>();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
