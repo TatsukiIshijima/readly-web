@@ -1,7 +1,16 @@
 'use client';
 
 import BasicTextField from '@/components/BasicTextField';
-import { Box, Stack, Typography, Link, DialogTitle, DialogContent, DialogActions, Dialog } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Typography,
+  Link,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Dialog,
+} from '@mui/material';
 import PasswordTextField from '@/components/PasswordTextField';
 import BasicButton from '@/components/BasicButton';
 import AuthContainer from '@/components/AuthContainer';
