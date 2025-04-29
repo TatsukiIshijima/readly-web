@@ -27,10 +27,15 @@ export const useSignInPage = (
     await action.signIn(state.email, state.password);
   }
 
+  function handleCloseDialog() {
+    action.closeDialog();
+  }
+
   return {
     state: state,
     onChangeEmail: handleEmailChange,
     onChangePassword: handlePasswordChange,
     onSubmit: handleSubmit,
+    onCloseDialog: handleCloseDialog,
   };
 };

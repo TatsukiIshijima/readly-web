@@ -10,7 +10,8 @@ export type SignInPageActionType =
   | { key: 'VALIDATE_PASSWORD'; error: string }
   | { key: 'REQUEST_SIGN_IN' }
   | { key: 'SUCCESS_SIGN_IN' }
-  | { key: 'FAILURE_SIGN_IN'; error: string };
+  | { key: 'FAILURE_SIGN_IN'; error: string }
+  | { key: 'CLOSE_DIALOG' };
 
 export class SignInPageAction {
   private readonly dispatch: React.ActionDispatch<[SignInPageActionType]>;
@@ -85,5 +86,9 @@ export class SignInPageAction {
         this.dispatch({ key: 'FAILURE_SIGN_IN', error: error.message });
       }
     }
+  }
+
+  closeDialog() {
+    this.dispatch({ key: 'CLOSE_DIALOG' });
   }
 }

@@ -32,6 +32,11 @@ export function signInPageReducer(
         isRequesting: false,
         signInErrorMessage: action.error,
       };
+    case 'CLOSE_DIALOG':
+      return {
+        ...state,
+        signInErrorMessage: '',
+      };
     default:
       throw Error('Unknown action: ' + action);
   }
