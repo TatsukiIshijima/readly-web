@@ -31,6 +31,24 @@ export function bookRegisterPageReducer(
       return { ...state, endDate: action.value };
     case 'INPUT_FILE':
       return { ...state, file: action.value };
+    case 'REQUEST_REGISTER_BOOK':
+      return {
+        ...state,
+        isRegistering: true,
+        registerErrorMessage: '',
+      };
+    case 'SUCCESS_REGISTER_BOOK':
+      return {
+        ...state,
+        isRegistering: false,
+        registerErrorMessage: '',
+      };
+    case 'FAILURE_REGISTER_BOOK':
+      return {
+        ...state,
+        isRegistering: false,
+        registerErrorMessage: action.error,
+      };
     default:
       throw Error('Unknown action: ' + action);
   }

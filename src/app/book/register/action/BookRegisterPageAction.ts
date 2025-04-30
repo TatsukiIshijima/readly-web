@@ -1,9 +1,12 @@
-import { ReadingStatus } from '@/libs/pb/reading_status_pb';
 import React from 'react';
 import { BookRepository } from '@/libs/repository/BookRepository';
 import { RegisterBookRequest as protoRegisterBookRequest } from '@/libs/pb/rpc_register_book_pb';
 import { Dayjs } from 'dayjs';
 import { dayjsToTimestamp } from '@/libs/util/DayjsToTimestamp';
+import {
+  ReadingStatus,
+  readingStatusDomainToProto,
+} from '@/types/ReadingStatus';
 
 export type BookRegisterActionType =
   | { key: 'INPUT_TITLE'; value: string }
@@ -90,6 +93,7 @@ export class BookRegisterPageAction {
     this.dispatch({ key: 'REQUEST_REGISTER_BOOK' });
     try {
       const protoRequest: protoRegisterBookRequest = request.toProto();
+      console.log('protoRequest', protoRequest);
       await this.bookRepository.register(protoRequest);
       this.dispatch({
         key: 'SUCCESS_REGISTER_BOOK',
@@ -155,7 +159,7 @@ export class RegisterBookRequest {
       publishDate: dayjsToTimestamp(this.publishDate),
       url: this.url,
       genres: this.genres,
-      readingStatus: this.readingStatus,
+      readingStatus: readingStatusDomainToProto(this.readingStatus),
       startDate: dayjsToTimestamp(this.startDate),
       endDate: dayjsToTimestamp(this.endDate),
     };

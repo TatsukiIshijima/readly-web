@@ -10,8 +10,8 @@ import {
 import React from 'react';
 import { useBookRepository } from '@/components/providers/BookRepositoryProvider';
 import { SelectChangeEvent } from '@mui/material';
-import { ReadingStatus } from '@/libs/pb/reading_status_pb';
 import { Dayjs } from 'dayjs';
+import { ReadingStatus } from '@/types/ReadingStatus';
 
 export const useBookRegisterPage = (
   initialState: BooKRegisterPageState = initialBookRegisterPageState
@@ -47,11 +47,13 @@ export const useBookRegisterPage = (
     action.inputURL(e.target.value);
   }
 
-  function handleGenresChange(e: React.ChangeEvent<HTMLInputElement>) {
-    action.inputGenres(e.target.value.split(','));
+  function handleGenresChange(e: SelectChangeEvent<string[]>) {
+    action.inputGenres(e.target.value as string[]);
   }
 
-  function handleReadingStatusChange(e: SelectChangeEvent<ReadingStatus>) {
+  function handleReadingStatusChange(
+    e: SelectChangeEvent<string | ReadingStatus>
+  ) {
     action.inputReadingStatus(e.target.value as ReadingStatus);
   }
 
