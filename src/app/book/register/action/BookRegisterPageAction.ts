@@ -21,7 +21,7 @@ export type BookRegisterActionType =
   | { key: 'SUCCESS_REGISTER_BOOK' }
   | { key: 'FAILURE_REGISTER_BOOK'; error: string };
 
-export class BookRegisterAction {
+export class BookRegisterPageAction {
   private readonly dispatch: React.ActionDispatch<[BookRegisterActionType]>;
   private readonly bookRepository: BookRepository;
 
