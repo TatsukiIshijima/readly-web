@@ -6,6 +6,8 @@ import { AuthApiClientProvider } from '@/components/providers/AuthApiClientProvi
 import { AuthTokenAccessorProvider } from '@/components/providers/AuthTokenAccessorProvider';
 import { ApiClientProvider } from '@/components/providers/ApiClientProvider';
 import { UserRepositoryProvider } from '@/components/providers/UserRepositoryProvider';
+import { BookApiClientProvider } from '@/components/providers/BookApiClientProvider';
+import { BookRepositoryProvider } from '@/components/providers/BookRepositoryProvider';
 
 export function Root({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -14,7 +16,11 @@ export function Root({ children }: Readonly<{ children: React.ReactNode }>) {
         <AuthTokenAccessorProvider>
           <ApiClientProvider>
             <AuthApiClientProvider>
-              <UserRepositoryProvider>{children}</UserRepositoryProvider>
+              <BookApiClientProvider>
+                <UserRepositoryProvider>
+                  <BookRepositoryProvider>{children}</BookRepositoryProvider>
+                </UserRepositoryProvider>
+              </BookApiClientProvider>
             </AuthApiClientProvider>
           </ApiClientProvider>
         </AuthTokenAccessorProvider>
