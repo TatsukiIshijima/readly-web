@@ -49,7 +49,10 @@ export class BookRegisterPageAction {
     this.dispatch({ key: 'INPUT_ISBN', value });
   }
 
-  inputPublishDate(value: Dayjs) {
+  inputPublishDate(value: Dayjs | null) {
+    if (value === null) {
+      return;
+    }
     this.dispatch({ key: 'INPUT_PUBLISH_DATE', value });
   }
 
@@ -65,11 +68,17 @@ export class BookRegisterPageAction {
     this.dispatch({ key: 'INPUT_READING_STATUS', value });
   }
 
-  inputStartDate(value: Dayjs) {
+  inputStartDate(value: Dayjs | null) {
+    if (value === null) {
+      return;
+    }
     this.dispatch({ key: 'INPUT_START_DATE', value });
   }
 
-  inputEndDate(value: Dayjs) {
+  inputEndDate(value: Dayjs | null) {
+    if (value === null) {
+      return;
+    }
     this.dispatch({ key: 'INPUT_END_DATE', value });
   }
 
