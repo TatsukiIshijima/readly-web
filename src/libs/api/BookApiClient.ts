@@ -1,6 +1,7 @@
 import { ApiClient } from '@/libs/api/ApiClient';
-import { RegisterBookRequest } from '@/libs/pb/rpc_register_book_pb';
+import { RegisterBookRequest } from '@/libs/api/request/RegisterBookRequest';
 import { Book } from '@/libs/pb/book_pb';
+import { RegisterBookRequest as ProtoRegisterBookRequest } from '@/libs/pb/rpc_register_book_pb';
 
 export interface BookApiClient {
   register(request: RegisterBookRequest): Promise<Book>;
@@ -14,9 +15,11 @@ export class BookApiClientImpl implements BookApiClient {
   }
 
   async register(request: RegisterBookRequest): Promise<Book> {
-    return await this.apiClient.post<Book, RegisterBookRequest>(
+    const protoRequest = request.toProto();
+    console.log(protoRequest);
+    return await this.apiClient.post<Book, ProtoRegisterBookRequest>(
       '/v1/books',
-      request
+      protoRequest
     );
   }
 }

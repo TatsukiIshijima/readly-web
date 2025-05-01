@@ -1,12 +1,8 @@
 import React from 'react';
 import { BookRepository } from '@/libs/repository/BookRepository';
-import { RegisterBookRequest as protoRegisterBookRequest } from '@/libs/pb/rpc_register_book_pb';
 import { Dayjs } from 'dayjs';
-import { dayjsToTimestamp } from '@/libs/util/DayjsToTimestamp';
-import {
-  ReadingStatus,
-  readingStatusDomainToProto,
-} from '@/types/ReadingStatus';
+import { ReadingStatus } from '@/types/ReadingStatus';
+import { RegisterBookRequest } from '@/libs/api/request/RegisterBookRequest';
 
 export type BookRegisterActionType =
   | { key: 'INPUT_TITLE'; value: string }
@@ -92,9 +88,7 @@ export class BookRegisterPageAction {
   async registerBook(request: RegisterBookRequest) {
     this.dispatch({ key: 'REQUEST_REGISTER_BOOK' });
     try {
-      const protoRequest: protoRegisterBookRequest = request.toProto();
-      console.log('protoRequest', protoRequest);
-      await this.bookRepository.register(protoRequest);
+      await this.bookRepository.register(request);
       this.dispatch({
         key: 'SUCCESS_REGISTER_BOOK',
       });
@@ -107,69 +101,5 @@ export class BookRegisterPageAction {
         });
       }
     }
-  }
-}
-
-export class RegisterBookRequest {
-  title: string;
-  genres: string[];
-  readingStatus: ReadingStatus;
-  publishDate: Dayjs | null;
-  startDate: Dayjs | null;
-  endDate: Dayjs | null;
-  coverImageUrl?: string;
-  author?: string;
-  publisher?: string;
-  isbn?: string;
-  url?: string;
-
-  constructor(
-    title: string,
-    genres: string[],
-    readingStatus: ReadingStatus,
-    publishDate: Dayjs | null,
-    startDate: Dayjs | null,
-    endDate: Dayjs | null,
-    coverImageUrl?: string,
-    author?: string,
-    publisher?: string,
-    isbn?: string,
-    url?: string
-  ) {
-    this.title = title;
-    this.genres = genres;
-    this.readingStatus = readingStatus;
-    this.coverImageUrl = coverImageUrl;
-    this.author = author;
-    this.publisher = publisher;
-    this.isbn = isbn;
-    this.publishDate = publishDate;
-    this.url = url;
-    this.startDate = startDate;
-    this.endDate = endDate;
-  }
-
-  toProto(): protoRegisterBookRequest {
-    const publishDate =
-      this.publishDate !== null
-        ? dayjsToTimestamp(this.publishDate)
-        : undefined;
-    const startDate =
-      this.startDate !== null ? dayjsToTimestamp(this.startDate) : undefined;
-    const endDate =
-      this.endDate !== null ? dayjsToTimestamp(this.endDate) : undefined;
-    return {
-      $typeName: 'pb.RegisterBookRequest',
-      title: this.title,
-      authorName: this.author,
-      publisherName: this.publisher,
-      isbn: this.isbn,
-      publishDate: publishDate,
-      url: this.url,
-      genres: this.genres,
-      readingStatus: readingStatusDomainToProto(this.readingStatus),
-      startDate: startDate,
-      endDate: endDate,
-    };
   }
 }
