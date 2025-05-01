@@ -10,10 +10,11 @@ export type BooKRegisterPageState = {
   author?: string;
   publisher?: string;
   isbn?: string;
-  publishDate?: Dayjs;
+  // DatePickerのvalueがundefinedを許容しないためnullを明示的に追加
+  publishDate: Dayjs | null;
   url?: string;
-  startDate?: Dayjs;
-  endDate?: Dayjs;
+  startDate: Dayjs | null;
+  endDate: Dayjs | null;
   file?: File;
 };
 
@@ -21,6 +22,9 @@ export const initialBookRegisterPageState: BooKRegisterPageState = {
   title: '',
   genres: [],
   readingStatus: 'unread',
+  publishDate: null,
+  startDate: null,
+  endDate: null,
   isRegistering: false,
   registerErrorMessage: '',
 };
