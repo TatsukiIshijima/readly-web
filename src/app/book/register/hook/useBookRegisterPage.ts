@@ -71,15 +71,15 @@ export const useBookRegisterPage = (
       state.title,
       state.genres,
       state.readingStatus,
+      state.publishDate,
+      state.startDate,
+      state.endDate,
       // TODO:画像アップロード後のURLを設定
       '',
       state.author,
       state.publisher,
       state.isbn,
-      state.publishDate,
-      state.url,
-      state.startDate,
-      state.endDate
+      state.url
     );
     await action.registerBook(request);
   }

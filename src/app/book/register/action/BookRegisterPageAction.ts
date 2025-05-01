@@ -114,27 +114,27 @@ export class RegisterBookRequest {
   title: string;
   genres: string[];
   readingStatus: ReadingStatus;
+  publishDate: Dayjs | null;
+  startDate: Dayjs | null;
+  endDate: Dayjs | null;
   coverImageUrl?: string;
   author?: string;
   publisher?: string;
   isbn?: string;
-  publishDate?: Dayjs;
   url?: string;
-  startDate?: Dayjs;
-  endDate?: Dayjs;
 
   constructor(
     title: string,
     genres: string[],
     readingStatus: ReadingStatus,
+    publishDate: Dayjs | null,
+    startDate: Dayjs | null,
+    endDate: Dayjs | null,
     coverImageUrl?: string,
     author?: string,
     publisher?: string,
     isbn?: string,
-    publishDate?: Dayjs,
-    url?: string,
-    startDate?: Dayjs,
-    endDate?: Dayjs
+    url?: string
   ) {
     this.title = title;
     this.genres = genres;
@@ -150,18 +150,26 @@ export class RegisterBookRequest {
   }
 
   toProto(): protoRegisterBookRequest {
+    const publishDate =
+      this.publishDate !== null
+        ? dayjsToTimestamp(this.publishDate)
+        : undefined;
+    const startDate =
+      this.startDate !== null ? dayjsToTimestamp(this.startDate) : undefined;
+    const endDate =
+      this.endDate !== null ? dayjsToTimestamp(this.endDate) : undefined;
     return {
       $typeName: 'pb.RegisterBookRequest',
       title: this.title,
       authorName: this.author,
       publisherName: this.publisher,
       isbn: this.isbn,
-      publishDate: dayjsToTimestamp(this.publishDate),
+      publishDate: publishDate,
       url: this.url,
       genres: this.genres,
       readingStatus: readingStatusDomainToProto(this.readingStatus),
-      startDate: dayjsToTimestamp(this.startDate),
-      endDate: dayjsToTimestamp(this.endDate),
+      startDate: startDate,
+      endDate: endDate,
     };
   }
 }
