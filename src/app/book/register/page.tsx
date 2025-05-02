@@ -7,29 +7,17 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import BasicTextField from '@/components/BasicTextField';
 import BasicButton from '@/components/BasicButton';
 import React, { useRef, useState } from 'react';
-import { useTextField } from '@/hooks/useTextField';
-import { useDatePicker } from '@/hooks/useDatePicker';
-import { useMultiSelect, useSingleSelect } from '@/hooks/useSelect';
 import SingleSelect from '@/components/SingleSelect';
-import { ReadingStatus, ReadingStatusList } from '@/types/ReadingStatus';
+import { ReadingStatusList } from '@/types/ReadingStatus';
 import MultiSelect from '@/components/MultiSelect';
 import { dummyGenres } from '@/libs/testdata/dummy';
 import FormContainer from '@/components/FormContainer';
 import { Photo } from '@mui/icons-material';
 import Image from 'next/image';
+import { useBookRegisterPage } from '@/app/book/register/hook/useBookRegisterPage';
 
 export default function BookRegister() {
-  const titleText = useTextField('');
-  const authorText = useTextField('');
-  const publisherText = useTextField('');
-  const isbnText = useTextField('');
-  const urlText = useTextField('');
-  const publishDate = useDatePicker();
-  const startDate = useDatePicker();
-  const endDate = useDatePicker();
-  const statusSelect = useSingleSelect<ReadingStatus>('unread');
-  const genresSelect = useMultiSelect<string>();
-
+  const bookRegisterPage = useBookRegisterPage();
   // const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -58,7 +46,12 @@ export default function BookRegister() {
   return (
     <FormContainer>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Stack component={'form'} method={'POST'} spacing={4}>
+        <Stack
+          component={'form'}
+          onSubmit={bookRegisterPage.onSubmit}
+          method={'POST'}
+          spacing={4}
+        >
           <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
             <Box
               display={'flex'}
@@ -103,8 +96,8 @@ export default function BookRegister() {
             </Box>
           </Box>
           <BasicTextField
-            value={titleText.value}
-            onChange={titleText.onChange}
+            value={bookRegisterPage.state.title}
+            onChange={bookRegisterPage.onChangeTitle}
             id={'title'}
             label={'Title'}
             type={'text'}
@@ -113,24 +106,24 @@ export default function BookRegister() {
             autoFocus={false}
           />
           <BasicTextField
-            value={authorText.value}
-            onChange={authorText.onChange}
+            value={bookRegisterPage.state.author ?? ''}
+            onChange={bookRegisterPage.onChangeAuthor}
             id={'author'}
             label={'Author'}
             type={'text'}
             autoFocus={false}
           />
           <BasicTextField
-            value={publisherText.value}
-            onChange={publisherText.onChange}
+            value={bookRegisterPage.state.publisher ?? ''}
+            onChange={bookRegisterPage.onChangePublisher}
             id={'publisher'}
             label={'Publisher'}
             type={'text'}
             autoFocus={false}
           />
           <BasicTextField
-            value={isbnText.value}
-            onChange={isbnText.onChange}
+            value={bookRegisterPage.state.isbn ?? ''}
+            onChange={bookRegisterPage.onChangeISBN}
             id={'isbn'}
             label={'ISBN'}
             type={'text'}
@@ -138,12 +131,12 @@ export default function BookRegister() {
           />
           <DatePicker
             label="Publish Date"
-            value={publishDate.value}
-            onChange={publishDate.onChange}
+            value={bookRegisterPage.state.publishDate}
+            onChange={bookRegisterPage.onChangePublishDate}
           />
           <BasicTextField
-            value={urlText.value}
-            onChange={urlText.onChange}
+            value={bookRegisterPage.state.url ?? ''}
+            onChange={bookRegisterPage.onChangeURL}
             id={'url'}
             label={'URL'}
             type={'url'}
@@ -152,25 +145,25 @@ export default function BookRegister() {
           <MultiSelect
             label={'Genre'}
             items={dummyGenres}
-            selectedValue={genresSelect.value}
-            onChange={genresSelect.onChange}
+            selectedValue={bookRegisterPage.state.genres}
+            onChange={bookRegisterPage.onChangeGenres}
           />
           <SingleSelect
             label={'Reading Status'}
             items={[...ReadingStatusList]}
-            value={statusSelect.value}
-            onChange={statusSelect.onChange}
+            value={bookRegisterPage.state.readingStatus}
+            onChange={bookRegisterPage.onChangeReadingStatus}
             fullWidth={true}
           />
           <DatePicker
             label="Start Date"
-            value={startDate.value}
-            onChange={startDate.onChange}
+            value={bookRegisterPage.state.startDate}
+            onChange={bookRegisterPage.onChangeStartDate}
           />
           <DatePicker
             label="End Date"
-            value={endDate.value}
-            onChange={endDate.onChange}
+            value={bookRegisterPage.state.endDate}
+            onChange={bookRegisterPage.onChangeEndDate}
           />
           <BasicButton
             onClick={() => {}}

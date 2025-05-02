@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import type { Message } from "@bufbuild/protobuf";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
+import type { Date } from "./date_pb";
 import type { ReadingStatus } from "./reading_status_pb";
 
 /**
@@ -52,9 +52,9 @@ export declare type RegisterBookRequest = Message<"pb.RegisterBookRequest"> & {
   publisherName?: string;
 
   /**
-   * @generated from field: optional google.protobuf.Timestamp publish_date = 8;
+   * @generated from field: optional pb.Date publish_date = 8;
    */
-  publishDate?: Timestamp;
+  publishDate?: Date;
 
   /**
    * @generated from field: optional string isbn = 9;
@@ -67,14 +67,14 @@ export declare type RegisterBookRequest = Message<"pb.RegisterBookRequest"> & {
   readingStatus: ReadingStatus;
 
   /**
-   * @generated from field: optional google.protobuf.Timestamp start_date = 11;
+   * @generated from field: optional pb.Date start_date = 11;
    */
-  startDate?: Timestamp;
+  startDate?: Date;
 
   /**
-   * @generated from field: optional google.protobuf.Timestamp end_date = 12;
+   * @generated from field: optional pb.Date end_date = 12;
    */
-  endDate?: Timestamp;
+  endDate?: Date;
 };
 
 /**
