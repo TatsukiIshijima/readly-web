@@ -1,13 +1,13 @@
 import {
-  BooKRegisterPageState,
+  BookRegisterPageState,
   initialBookRegisterPageState,
 } from '@/app/book/register/state/BookRegisterPageState';
 import { BookRegisterActionType } from '@/app/book/register/action/BookRegisterPageAction';
 
 export function bookRegisterPageReducer(
-  state: BooKRegisterPageState = initialBookRegisterPageState,
+  state: BookRegisterPageState = initialBookRegisterPageState,
   action: BookRegisterActionType
-): BooKRegisterPageState {
+): BookRegisterPageState {
   switch (action.key) {
     case 'INPUT_TITLE':
       return { ...state, title: action.value };

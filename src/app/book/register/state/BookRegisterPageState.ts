@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { ReadingStatus } from '@/types/ReadingStatus';
 
-export type BooKRegisterPageState = {
+export type BookRegisterPageState = {
   title: string;
   genres: string[];
   readingStatus: ReadingStatus;
@@ -18,7 +18,7 @@ export type BooKRegisterPageState = {
   file?: File;
 };
 
-export const initialBookRegisterPageState: BooKRegisterPageState = {
+export const initialBookRegisterPageState: BookRegisterPageState = {
   title: '',
   genres: [],
   readingStatus: 'unread',

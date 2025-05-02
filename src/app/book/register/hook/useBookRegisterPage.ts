@@ -1,5 +1,5 @@
 import {
-  BooKRegisterPageState,
+  BookRegisterPageState,
   initialBookRegisterPageState,
 } from '@/app/book/register/state/BookRegisterPageState';
 import { bookRegisterPageReducer } from '@/app/book/register/reducer/BookRegisterPageReducer';
@@ -12,7 +12,7 @@ import { Dayjs } from 'dayjs';
 import React from 'react';
 
 export const useBookRegisterPage = (
-  initialState: BooKRegisterPageState = initialBookRegisterPageState
+  initialState: BookRegisterPageState = initialBookRegisterPageState
 ) => {
   const [state, dispatch] = React.useReducer(
     bookRegisterPageReducer,
