@@ -1,7 +1,7 @@
 import { ApiClient } from '@/libs/api/ApiClient';
 import { RegisterBookRequest } from '@/libs/api/request/RegisterBookRequest';
-import { Book } from '@/libs/pb/book_pb';
-import { RegisterBookRequest as ProtoRegisterBookRequest } from '@/libs/pb/rpc_register_book_pb';
+import { Book } from '@/libs/pb/readly/v1/book_pb';
+import { RegisterBookRequest as ProtoRegisterBookRequest } from '@/libs/pb/readly/v1/rpc_register_book_pb';
 
 export interface BookApiClient {
   register(request: RegisterBookRequest): Promise<Book>;

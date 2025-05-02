@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "readly/v1/rpc_refresh_token.proto";
+import "readly/v1/rpc_sign_in.proto";
+import "readly/v1/rpc_sign_up.proto";
+
+package readly.v1;
+
+option go_package = "readly/pb/readly/v1;pb";
+
+service UserService {
+  rpc SignIn(SignInRequest) returns (SignInResponse) {
+    option (google.api.http) = {
+      post: "/v1/signin"
+      body: "*"
+    };
+  }
+  rpc SignUp(SignUpRequest) returns (SignUpResponse) {
+    option (google.api.http) = {
+      post: "/v1/signup"
+      body: "*"
+    };
+  }
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {
+    option (google.api.http) = {
+      post: "/v1/refresh-token"
+      body: "*"
+    };
+  }
+}

@@ -1,6 +1,12 @@
 import { AuthApiClient } from '@/libs/api/AuthApiClient';
-import { SignUpRequest, SignUpResponse } from '@/libs/pb/rpc_sign_up_pb';
-import { SignInRequest, SignInResponse } from '@/libs/pb/rpc_sign_in_pb';
+import {
+  SignUpRequest,
+  SignUpResponse,
+} from '@/libs/pb/readly/v1/rpc_sign_up_pb';
+import {
+  SignInRequest,
+  SignInResponse,
+} from '@/libs/pb/readly/v1/rpc_sign_in_pb';
 
 export interface UserRepository {
   signUp(request: SignUpRequest): Promise<SignUpResponse>;

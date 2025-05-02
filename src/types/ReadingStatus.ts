@@ -1,4 +1,4 @@
-import { ReadingStatus as ReadingStatusProto } from '@/libs/pb/reading_status_pb';
+import { ReadingStatus as ReadingStatusProto } from '@/libs/pb/readly/v1/reading_status_pb';
 
 export const ReadingStatusList = ['unread', 'reading', 'done'] as const;
 export type ReadingStatus = (typeof ReadingStatusList)[number];
