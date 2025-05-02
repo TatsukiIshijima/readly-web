@@ -3,7 +3,7 @@ import {
   readingStatusDomainToProto,
 } from '@/types/ReadingStatus';
 import { Dayjs } from 'dayjs';
-import { RegisterBookRequest as protoRegisterBookRequest } from '@/libs/pb/rpc_register_book_pb';
+import { RegisterBookRequest as protoRegisterBookRequest } from '@/libs/pb/readly/v1/rpc_register_book_pb';
 import { dayjsToProtoDate } from '@/libs/util/DayjsMapper';
 
 export class RegisterBookRequest {
@@ -55,7 +55,7 @@ export class RegisterBookRequest {
     const endDate =
       this.endDate !== null ? dayjsToProtoDate(this.endDate) : undefined;
     return {
-      $typeName: 'pb.RegisterBookRequest',
+      $typeName: 'readly.v1.RegisterBookRequest',
       title: this.title,
       authorName: this.author,
       publisherName: this.publisher,

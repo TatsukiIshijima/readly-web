@@ -1,4 +1,4 @@
-import { Book } from '@/libs/pb/book_pb';
+import { Book } from '@/libs/pb/readly/v1/book_pb';
 import { BookApiClient } from '@/libs/api/BookApiClient';
 import { RegisterBookRequest } from '@/libs/api/request/RegisterBookRequest';
 

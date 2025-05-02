@@ -1,4 +1,4 @@
-import { SignInRequest } from '@/libs/pb/rpc_sign_in_pb';
+import { SignInRequest } from '@/libs/pb/readly/v1/rpc_sign_in_pb';
 import { UserRepository } from '@/libs/repository/UserRepository';
 import React from 'react';
 import { validateEmail, validatePassword } from '@/libs/util/Validate';
@@ -73,7 +73,7 @@ export class SignInPageAction {
     this.dispatch({ key: 'REQUEST_SIGN_IN' });
     try {
       const request: SignInRequest = {
-        $typeName: 'pb.SignInRequest',
+        $typeName: 'readly.v1.SignInRequest',
         email,
         password,
       };

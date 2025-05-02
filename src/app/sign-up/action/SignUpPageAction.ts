@@ -5,7 +5,7 @@ import {
   validatePassword,
   validateUserName,
 } from '@/libs/util/Validate';
-import { SignUpRequest } from '@/libs/pb/rpc_sign_up_pb';
+import { SignUpRequest } from '@/libs/pb/readly/v1/rpc_sign_up_pb';
 
 export type SignUpPageActionType =
   | { key: 'INPUT_USER_NAME'; value: string }
@@ -96,7 +96,7 @@ export class SignUpPageAction {
     this.dispatch({ key: 'REQUEST_SIGN_UP' });
     try {
       const request: SignUpRequest = {
-        $typeName: 'pb.SignUpRequest',
+        $typeName: 'readly.v1.SignUpRequest',
         name: userName,
         email: email,
         password: password,
